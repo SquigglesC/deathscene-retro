@@ -6,9 +6,45 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "codegen": "gql-gen --config graphql.config.ts --watch"
   },
   "dependencies": {
-    "astro": "^5.7.12"
+    "@astrojs/react": "^4.2.7",
+    "@astrojs/sitemap": "^3.4.0",
+    "@astrojs/ts-plugin": "^1.10.4",
+    "@astrojs/vercel": "^8.1.4",
+    "@graphql-typed-document-node/core": "^3.2.0",
+    "@heroui/react": "^2.7.8",
+    "@nanostores/persistent": "^1.0.0",
+    "@nanostores/react": "^1.0.0",
+    "@nextui-org/react": "^2.6.11",
+    "@tanstack/react-query": "^5.76.0",
+    "@terrestris/react-geo": "^30.2.1",
+    "astro": "^5.7.12",
+    "astro-seo": "^0.8.4",
+    "framer-motion": "^12.11.0",
+    "motion": "^12.11.0",
+    "ol": "^10.5.0",
+    "overlayscrollbars": "^2.11.2",
+    "overlayscrollbars-react": "^0.5.6",
+    "react": "^19.1.0",
+    "react-countdown": "^2.3.6",
+    "react-dom": "^19.1.0",
+    "schema-dts": "^1.1.5",
+    "sharp": "^0.34.1",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.6",
+    "@parcel/watcher": "^2.5.1",
+    "@types/countdown": "^0.0.12",
+    "@types/react": "^19.1.4",
+    "@types/react-dom": "^19.1.4",
+    "add": "^2.0.6",
+    "dotenv": "^16.5.0",
+    "geo-coder": "^1.0.2",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.3"
   }
 }
