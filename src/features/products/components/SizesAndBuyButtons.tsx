@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button, { BUTTON_VARIANTS } from "../../../components/input/Button";
-import { useStore } from "@nanostores/react";
+//import { useStore } from "@nanostores/react";
 import upsertCart from "../../cart/utils/upsertCart";
 import { execute } from "../../../graphql/execute";
 import { addToCartMutation } from "../../cart/storefront/addToCart";

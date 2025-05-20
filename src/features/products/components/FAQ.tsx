@@ -1,5 +1,5 @@
 import { Accordion, AccordionItem } from "@nextui-org/react";
-import type { JSX, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface FAQ {
   title: string;

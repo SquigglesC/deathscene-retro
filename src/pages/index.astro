@@ -1,8 +1,8 @@
 ---
 // @ts-ignore
 import { motion } from "motion/react";
-import { CountdownQuery } from "../features/countdown/admin/getCountdown";
-import { executeAdminUntyped } from "../graphql/execute";
+//import { CountdownQuery } from "../features/countdown/admin/getCountdown";
+//import { executeAdminUntyped } from "../graphql/execute";
 import type { SEOFieldProps } from "../layouts/BaseLayout.astro";
 import ScrollingLayout from "../layouts/ScrollingLayout.astro";
 import Products from "../features/shop/components/Products.astro";
@@ -13,8 +13,8 @@ const SEO: SEOFieldProps = {
   description: "loreum ipsum | shop our online store for our latest collection",
 };
 
-const res = await executeAdminUntyped(CountdownQuery, {});
-const releaseDate = res.metaobjectByHandle.fields[0].value;
+//const res = await executeAdminUntyped(CountdownQuery, {});
+//const releaseDate = res.metaobjectByHandle.fields[0].value;
 
 const fadeInFromBottom = {
   animate: { y: 0, opacity: 1 },

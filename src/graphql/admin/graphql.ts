@@ -4536,7 +4536,10 @@ export type ChannelDefinition = Node & {
   isMarketplace: Scalars['Boolean']['output'];
   /** Name of the sub channel (e.g. Online Store, Instagram Shopping, TikTok Live). */
   subChannelName: Scalars['String']['output'];
-  /** Icon displayed when showing the channel in admin. */
+  /**
+   * Icon displayed when showing the channel in admin.
+   * @deprecated Use App.icon instead
+   */
   svgIcon?: Maybe<Scalars['String']['output']>;
 };
 

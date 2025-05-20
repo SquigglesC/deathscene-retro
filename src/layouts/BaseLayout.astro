@@ -1,7 +1,6 @@
 ---
 import { SEO, type Props as SEOProps } from "astro-seo";
 import type { WithContext } from "schema-dts";
-import "overlayscrollbars/overlayscrollbars.css";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import "overlayscrollbars/overlayscrollbars.css";
 
@@ -53,7 +52,9 @@ const { SEOFields, structuredData } = Astro.props;
       },
     }}
   >
-      <slot />
+      <slot>
+            <p>This is my fallback content, if there is no child passed into slot</p>
+      </slot>
   </OverlayScrollbarsComponent>
   </body>
 </html>

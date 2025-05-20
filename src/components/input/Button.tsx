@@ -1,4 +1,3 @@
-import { button } from "@nextui-org/react";
 import React, { useState } from "react";
 
 export enum BUTTON_VARIANTS {
