@@ -1,21 +1,20 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 
-import react from '@astrojs/react';
+import tailwind from "@astrojs/tailwind";
 
-import sitemap from '@astrojs/sitemap';
+import react from "@astrojs/react";
 
-import tailwindcss from '@tailwindcss/vite';
+import vercel from "@astrojs/vercel";
 
-import vercel from '@astrojs/vercel';
+import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react(), sitemap()],
-
-  vite: {
-    plugins: [tailwindcss()]
-  },
-
-  adapter: vercel()
+  integrations: [tailwind(), react(), sitemap()],
+  output: "server",
+  site: "https://deathscenela.com",
+  adapter: vercel({
+    isr: true,
+  })
 });

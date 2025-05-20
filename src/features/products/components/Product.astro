@@ -1,0 +1,276 @@
+---
+import { Image, imageConfig, Picture } from "astro:assets";
+import SizesAndBuyButtons from "./SizesAndBuyButtons";
+import FAQ from "./FAQ";
+import Footer from "../../../components/Footer.astro";
+import type { ProductByHandleQuery } from "../../../graphql/storefront/graphql";
+import ImageModal from "../components/ImageModal";
+import { ENVIRONMENT } from "../../../config/constants";
+
+interface Props {
+  product: NonNullable<ProductByHandleQuery["product"]>;
+}
+
+const { product } = Astro.props;
+const releaseDate = product.metafields.find(
+  (field) => field?.key === "release_date"
+)?.value;
+
+const isReleased = true;
+---
+
+<main class="flex w-full h-full justify-center px-[6%]">
+  <div
+    class="hidden lg:flex container w-full flex-col items-center relative max-w-[850px]"
+  >
+    <!-- MAIN CONTENT (flex row with images + text) -->
+    <div class="flex w-full flex-row gap-10 mt-[100px]">
+      <!-- IMAGE CONTENT (Main + Scrollable Thumbnails) -->
+      <div class="flex flex-col w-full max-w-[400px] z-10">
+        <!-- Leading Image -->
+        {
+          product.images.edges.length > 0 && (
+            <div class="relative overflow-hidden flex justify-center items-center w-full max-h-[750px] group grid-item mb-6">
+              <div
+                class="absolute inset-0 pointer-events-none"
+                style="box-shadow: inset 0px 0px 12px rgba(0, 0, 0, .6); z-index: 2;"
+              />
+              <ImageModal client:idle>
+                <Picture
+                  src={product.images.edges[0].node.url}
+                  width={500}
+                  height={500}
+                  alt={product.images.edges[0].node.altText || product.title}
+                  class="w-full h-auto object-cover"
+                />
+              </ImageModal>
+            </div>
+          )
+        }
+
+        <!-- Scrollable Row of Remaining Images -->
+        <div class="flex overflow-x-auto gap-4 pb-2">
+          {
+            product.images.edges.slice(1).map((image, idx) => (
+              <div class="min-w-[120px] max-w-[150px] h-auto relative flex-shrink-0">
+                <div
+                  class="absolute inset-0 pointer-events-none"
+                  style="box-shadow: inset 0px 0px 12px rgba(0, 0, 0, .6); z-index: 2;"
+                />
+                <ImageModal client:idle>
+                  <Picture
+                    src={image.node.url}
+                    width={500}
+                    height={500}
+                    alt={image.node.altText || product.title}
+                    class="w-full h-auto object-cover"
+                  />
+                </ImageModal>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- RIGHT: Product Info -->
+      <div class="w-[50%] sticky flex flex-col justify-start items-end text-light gap-4">
+        <h1 class="lg:text-[24px] text-5xl max-w-[520px] leading-none pointer-events-auto select-text title-check title-shadow">
+          {product.title.toUpperCase()}
+        </h1>
+        <h3 class="text-[15px] mix-blend-hard-light tracking-[5%] leading-[39%] pb-6">
+          {Number(product.priceRange.minVariantPrice.amount).toFixed(2)}
+        </h3>
+        <SizesAndBuyButtons
+          isReleased={isReleased}
+          client:only
+          sizes={product.variants.edges}
+        />
+        <div
+          id="description"
+          class="list-inside flex flex-col gap-y-4 text-[16px] w-full tracking-[-5%]"
+          set:html={product.descriptionHtml}
+        />
+      </div>
+    </div>
+
+    <!-- Desktop Footer -->
+    <div class="w-full mt-20">
+      <Footer showIG={false} />
+    </div>
+  </div>
+
+  {/* Mobile Screens (sorry im getting lazy) */}
+  <div class="flex flex-col lg:hidden w-full gap-12">
+    <!-- Mobile View: Sequential Layout -->
+    <div class="flex flex-col items-center lg:hidden w-full mt-[40px] text-light gap-12 px-[6%]">
+      <div class="flex flex-col w-full max-w-[400px] z-10">
+        <!-- Leading Image -->
+        {
+          product.images.edges.length > 0 && (
+            <div class="relative overflow-hidden flex justify-center items-center w-full max-h-[750px] group grid-item mb-6">
+              <div
+                class="absolute inset-0 pointer-events-none"
+                style="box-shadow: inset 0px 0px 12px rgba(0, 0, 0, .6); z-index: 2;"
+              />
+              <ImageModal client:idle>
+                <Picture
+                  src={product.images.edges[0].node.url}
+                  width={500}
+                  height={500}
+                  alt={product.images.edges[0].node.altText || product.title}
+                  class="w-full h-auto object-cover"
+                />
+              </ImageModal>
+            </div>
+          )
+        }
+
+        <!-- Scrollable Row of Remaining Images -->
+        <div class="flex overflow-x-auto gap-4 pb-2">
+          {
+            product.images.edges.slice(1).map((image, idx) => (
+              <div class="min-w-[120px] max-w-[150px] h-auto relative flex-shrink-0">
+                <div
+                  class="absolute inset-0 pointer-events-none"
+                  style="box-shadow: inset 0px 0px 12px rgba(0, 0, 0, .6); z-index: 2;"
+                />
+                <ImageModal client:idle>
+                  <Picture
+                    src={image.node.url}
+                    width={500}
+                    height={500}
+                    alt={image.node.altText || product.title}
+                    class="w-full h-auto object-cover"
+                  />
+                </ImageModal>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Title & Price -->
+      <div class="flex flex-col gap-2 w-full text-center">
+        <h2 class="text-2xl leading-tight font-semibold title-shadow">
+          {product.title.toUpperCase()}
+        </h2>
+        <h3 class="text-1xl tracking-wide title-shadow">
+          {Number(product.priceRange.minVariantPrice.amount).toFixed(2)}
+        </h3>
+      </div>
+
+      <!-- Sizes and Buy Buttons -->
+      <div class="w-full">
+        <SizesAndBuyButtons client:only isReleased={isReleased} sizes={product.variants.edges} />
+      </div>
+
+      <!-- Description -->
+      <div
+        id="description"
+        class="list-inside flex flex-col gap-y-4 text-[16px] tracking-[-5%]"
+        set:html={product.descriptionHtml}
+      />
+      </div>
+    <!-- Footer -->
+    <Footer showIG={false}/>
+  </div>
+</main>
+
+<script>
+  function adjustTitleLayout() {
+    const title = document.querySelector(
+      "h1.title-check"
+    ) as HTMLElement | null;
+    const imageContainer = document.querySelector(
+      ".grid"
+    ) as HTMLElement | null;
+    const stickyText = document.querySelector(".sticky") as HTMLElement | null;
+
+    if (title && imageContainer && stickyText) {
+      const updateLayout = () => {
+        const lineHeight = parseFloat(getComputedStyle(title).lineHeight);
+        const titleHeight = title.offsetHeight;
+        const numberOfLines = Math.round(titleHeight / lineHeight);
+
+        if (numberOfLines < 3) {
+          // Reduce space for short titles
+          imageContainer.style.marginTop = "312px";
+          title.style.marginTop = "80px";
+          stickyText.style.top = "180px";
+        } else {
+          // Reset to default for longer titles
+          imageContainer.style.marginTop = "352px";
+          title.style.marginTop = "0px";
+          stickyText.style.top = "220px";
+        }
+      };
+
+      document.fonts.ready.then(updateLayout);
+
+      // Observe changes
+      const resizeObserver = new ResizeObserver(updateLayout);
+      resizeObserver.observe(title);
+
+      // Run on first load
+      updateLayout();
+    }
+  }
+
+  // Run on page load
+  document.addEventListener("DOMContentLoaded", adjustTitleLayout);
+  document.addEventListener("astro:after-swap", adjustTitleLayout);
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    adjustImageMargin(); // Call on page load
+    window.addEventListener("resize", adjustImageMargin); // Call on resize
+
+    // Your other scripts can go here without conflicts
+  });
+
+  function adjustImageMargin() {
+    const title = document.getElementById("dynamic-title");
+    const imageContainer2 = document.getElementById("image-container-2");
+
+    if (title && imageContainer2) {
+      const lineHeight = parseFloat(getComputedStyle(title).lineHeight);
+      const numberOfLines = Math.round(title.scrollHeight / lineHeight);
+
+      if (numberOfLines === 1) {
+        imageContainer2.style.paddingTop = "26px";
+      } else {
+        imageContainer2.style.paddingTop = "62px";
+      }
+    }
+  }
+</script>
+
+<style>
+  h1,
+  h2 {
+    font-family: "Inter";
+  }
+
+  h3 {
+    font-family: "Inter";
+  }
+
+  #description {
+    font-family: "Inter";
+  }
+
+  .text-light {
+    text-shadow: 0px 0px 2px rgba(235, 235, 235, 0.4); /* Soft light glow */
+  }
+
+  .title-shadow {
+    text-shadow:
+      0px 0px 6px rgba(235, 235, 235, 0.5),
+      0px 0px 12px rgba(0, 0, 0, 0.6);
+  }
+
+  .grid-item {
+    box-shadow: 0px 0px 4px rgba(235, 235, 235, 0.4);
+  }
+</style>

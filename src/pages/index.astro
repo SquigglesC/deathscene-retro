@@ -1,11 +1,44 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+// @ts-ignore
+import { motion } from "motion/react";
+import { CountdownQuery } from "../features/countdown/admin/getCountdown";
+import { executeAdminUntyped } from "../graphql/execute";
+import type { SEOFieldProps } from "../layouts/BaseLayout.astro";
+import ScrollingLayout from "../layouts/ScrollingLayout.astro";
+import Products from "../features/shop/components/Products.astro";
+import Footer from "../components/Footer.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const SEO: SEOFieldProps = {
+  title: "deathscene",
+  description: "loreum ipsum | shop our online store for our latest collection",
+};
+
+const res = await executeAdminUntyped(CountdownQuery, {});
+const releaseDate = res.metaobjectByHandle.fields[0].value;
+
+const fadeInFromBottom = {
+  animate: { y: 0, opacity: 1 },
+  initial: { y: 100, opacity: 0 },
+};
+
+export const prerender = false;
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<ScrollingLayout SEOFields={SEO}>
+  <div class="flex justify-center px-4 md:px-12 lg:px-[6%] pt-5">
+    <motion.div
+      client:load
+      className="max-w-screen-xl flex flex-col items-center"
+      animate="animate"
+      initial="initial"
+      variants={fadeInFromBottom}
+      transition={{ bounce: 0, duration: 0.5, ease: [0, 0, 0.45, 0.87] }}
+    >
+      <main class="w-full flex justify-center items-start">
+          <Products />
+      </main>
+      <Footer showIG={false}/>
+    </motion.div>
+  </div>
+</ScrollingLayout>
+

@@ -1,0 +1,27 @@
+---
+import { Picture } from "astro:assets";
+---
+
+<div
+  class="h-lvh w-full fixed top-0 left-0 bg-dark -z-50 overflow-hidden pointer-events-none bg-[#616161]"
+>
+  <!-- <Picture
+    class="absolute top-0 left-0 w-auto h-auto max-w-none min-w-full min-h-full object-cover mix-blend-soft-light opacity-75"
+    src={"https://zrjaxvk9cb.ufs.sh/f/VjJAZzOG9e6inXLSq6Gixs4HkfQw8WObBaJ0KEhL3CUIY2oA"}
+    width={1734}
+    height={970}
+    alt="wide grunge effect"
+    loading="eager"
+    id="grunge-0"
+  /> -->
+
+  <!-- <Picture
+    class="absolute right-0 -bottom-6 lg:bottom-0 mix-blend-soft-light opacity-75 max-h-[35%] w-auto"
+    src={"https://zrjaxvk9cb.ufs.sh/f/VjJAZzOG9e6ibmzF19pY2h9wpeKBqCMcdEzxmOTyFUfG8DWt"}
+    alt="skull"
+    width={388}
+    height={388}
+    loading="eager"
+  /> -->
+  <slot />
+</div>

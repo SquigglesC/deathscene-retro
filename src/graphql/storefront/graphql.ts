@@ -1,4 +1,5 @@
 /* eslint-disable */
+import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -9057,6 +9058,48 @@ export enum WeightUnit {
   Pounds = 'POUNDS'
 }
 
+export type AddToCartMutationVariables = Exact<{
+  cartId: Scalars['ID']['input'];
+  variantId: Scalars['ID']['input'];
+}>;
+
+
+export type AddToCartMutation = { __typename?: 'Mutation', cartLinesAdd?: { __typename?: 'CartLinesAddPayload', cart?: { __typename?: 'Cart', id: string, checkoutUrl: any } | null, userErrors: Array<{ __typename?: 'CartUserError', field?: Array<string> | null, message: string }> } | null };
+
+export type CartCreateMutationVariables = Exact<{
+  input?: InputMaybe<CartInput>;
+}>;
+
+
+export type CartCreateMutation = { __typename?: 'Mutation', cartCreate?: { __typename?: 'CartCreatePayload', cart?: { __typename?: 'Cart', id: string, checkoutUrl: any, cost: { __typename?: 'CartCost', checkoutChargeAmount: { __typename?: 'MoneyV2', currencyCode: CurrencyCode, amount: any } }, lines: { __typename?: 'BaseCartLineConnection', edges: Array<{ __typename?: 'BaseCartLineEdge', node: { __typename?: 'CartLine', id: string, quantity: number, merchandise: { __typename: 'ProductVariant', title: string, price: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, product: { __typename?: 'Product', id: string, title: string, handle: string, featuredImage?: { __typename?: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', id: string, title: string, quantityAvailable?: number | null } }> } } } } | { __typename?: 'ComponentizableCartLine', id: string, quantity: number, merchandise: { __typename: 'ProductVariant', title: string, price: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, product: { __typename?: 'Product', id: string, title: string, handle: string, featuredImage?: { __typename?: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', id: string, title: string, quantityAvailable?: number | null } }> } } } } }> } } | null, userErrors: Array<{ __typename?: 'CartUserError', field?: Array<string> | null, message: string }> } | null };
+
+export type GetCartByIdQueryVariables = Exact<{
+  cartId: Scalars['ID']['input'];
+}>;
+
+
+export type GetCartByIdQuery = { __typename?: 'QueryRoot', cart?: { __typename?: 'Cart', id: string, checkoutUrl: any, cost: { __typename?: 'CartCost', checkoutChargeAmount: { __typename?: 'MoneyV2', currencyCode: CurrencyCode, amount: any } }, lines: { __typename?: 'BaseCartLineConnection', edges: Array<{ __typename?: 'BaseCartLineEdge', node: { __typename?: 'CartLine', id: string, quantity: number, merchandise: { __typename: 'ProductVariant', title: string, price: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, product: { __typename?: 'Product', id: string, title: string, handle: string, featuredImage?: { __typename?: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', id: string, title: string, quantityAvailable?: number | null } }> } } } } | { __typename?: 'ComponentizableCartLine', id: string, quantity: number, merchandise: { __typename: 'ProductVariant', title: string, price: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, product: { __typename?: 'Product', id: string, title: string, handle: string, featuredImage?: { __typename?: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', id: string, title: string, quantityAvailable?: number | null } }> } } } } }> } } | null };
+
+export type UpdateCartMutationVariables = Exact<{
+  cartId: Scalars['ID']['input'];
+  lines: Array<CartLineUpdateInput> | CartLineUpdateInput;
+}>;
+
+
+export type UpdateCartMutation = { __typename?: 'Mutation', cartLinesUpdate?: { __typename?: 'CartLinesUpdatePayload', cart?: { __typename?: 'Cart', id: string } | null, userErrors: Array<{ __typename?: 'CartUserError', field?: Array<string> | null, message: string }> } | null };
+
+export type ProductByHandleQueryVariables = Exact<{
+  handle: Scalars['String']['input'];
+}>;
+
+
+export type ProductByHandleQuery = { __typename?: 'QueryRoot', product?: { __typename?: 'Product', id: string, title: string, descriptionHtml: any, description: string, publishedAt: any, handle: string, totalInventory?: number | null, tags: Array<string>, featuredImage?: { __typename?: 'Image', altText?: string | null, width?: number | null, height?: number | null, url: any } | null, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', id: string, title: string, quantityAvailable?: number | null, image?: { __typename?: 'Image', url: any, altText?: string | null, width?: number | null, height?: number | null } | null } }> }, priceRange: { __typename?: 'ProductPriceRange', minVariantPrice: { __typename?: 'MoneyV2', amount: any } }, metafields: Array<{ __typename?: 'Metafield', key: string, value: string } | null>, images: { __typename?: 'ImageConnection', edges: Array<{ __typename?: 'ImageEdge', node: { __typename?: 'Image', url: any, altText?: string | null, width?: number | null, height?: number | null } }> } } | null };
+
+export type AllProductsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllProductsQuery = { __typename?: 'QueryRoot', products: { __typename?: 'ProductConnection', nodes: Array<{ __typename?: 'Product', id: string, title: string, handle: string, updatedAt: any, tags: Array<string>, totalInventory?: number | null, featuredImage?: { __typename?: 'Image', url: any, altText?: string | null, width?: number | null, height?: number | null } | null, images: { __typename?: 'ImageConnection', edges: Array<{ __typename?: 'ImageEdge', node: { __typename?: 'Image', url: any, altText?: string | null, width?: number | null, height?: number | null } }> }, priceRange: { __typename?: 'ProductPriceRange', minVariantPrice: { __typename?: 'MoneyV2', amount: any } }, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', id: string } }> }, metafields: Array<{ __typename?: 'Metafield', key: string, value: string } | null> }> } };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -9075,3 +9118,243 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+
+export const AddToCartDocument = new TypedDocumentString(`
+    mutation addToCart($cartId: ID!, $variantId: ID!) {
+  cartLinesAdd(cartId: $cartId, lines: {merchandiseId: $variantId}) {
+    cart {
+      id
+      checkoutUrl
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AddToCartMutation, AddToCartMutationVariables>;
+export const CartCreateDocument = new TypedDocumentString(`
+    mutation cartCreate($input: CartInput) {
+  cartCreate(input: $input) {
+    cart {
+      id
+      checkoutUrl
+      cost {
+        checkoutChargeAmount {
+          currencyCode
+          amount
+        }
+      }
+      lines(first: 100) {
+        edges {
+          node {
+            id
+            quantity
+            merchandise {
+              __typename
+              ... on ProductVariant {
+                price {
+                  amount
+                  currencyCode
+                }
+                title
+                product {
+                  id
+                  title
+                  handle
+                  featuredImage {
+                    id
+                    url
+                    altText
+                    width
+                    height
+                  }
+                  variants {
+                    edges {
+                      node {
+                        id
+                        title
+                        quantityAvailable
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CartCreateMutation, CartCreateMutationVariables>;
+export const GetCartByIdDocument = new TypedDocumentString(`
+    query getCartById($cartId: ID!) {
+  cart(id: $cartId) {
+    id
+    checkoutUrl
+    cost {
+      checkoutChargeAmount {
+        currencyCode
+        amount
+      }
+    }
+    lines(first: 100) {
+      edges {
+        node {
+          id
+          quantity
+          merchandise {
+            __typename
+            ... on ProductVariant {
+              price {
+                amount
+                currencyCode
+              }
+              title
+              product {
+                id
+                title
+                handle
+                featuredImage {
+                  id
+                  url
+                  altText
+                  width
+                  height
+                }
+                variants(first: 100) {
+                  edges {
+                    node {
+                      id
+                      title
+                      quantityAvailable
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetCartByIdQuery, GetCartByIdQueryVariables>;
+export const UpdateCartDocument = new TypedDocumentString(`
+    mutation updateCart($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+  cartLinesUpdate(cartId: $cartId, lines: $lines) {
+    cart {
+      id
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCartMutation, UpdateCartMutationVariables>;
+export const ProductByHandleDocument = new TypedDocumentString(`
+    query productByHandle($handle: String!) {
+  product(handle: $handle) {
+    id
+    title
+    descriptionHtml
+    description
+    publishedAt
+    featuredImage {
+      altText
+      width
+      height
+      url
+    }
+    handle
+    totalInventory
+    tags
+    variants(first: 100) {
+      edges {
+        node {
+          id
+          title
+          quantityAvailable
+          image {
+            url
+            altText
+            width
+            height
+          }
+        }
+      }
+    }
+    priceRange {
+      minVariantPrice {
+        amount
+      }
+    }
+    metafields(identifiers: [{namespace: "custom", key: "release_date"}]) {
+      key
+      value
+    }
+    images(first: 100) {
+      edges {
+        node {
+          url
+          altText
+          width
+          height
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ProductByHandleQuery, ProductByHandleQueryVariables>;
+export const AllProductsDocument = new TypedDocumentString(`
+    query AllProducts {
+  products(first: 100) {
+    nodes {
+      id
+      title
+      handle
+      updatedAt
+      tags
+      totalInventory
+      featuredImage {
+        url
+        altText
+        width
+        height
+      }
+      images(first: 2) {
+        edges {
+          node {
+            url
+            altText
+            width
+            height
+          }
+        }
+      }
+      priceRange {
+        minVariantPrice {
+          amount
+        }
+      }
+      variants(first: 100) {
+        edges {
+          node {
+            id
+          }
+        }
+      }
+      metafields(identifiers: [{namespace: "custom", key: "release_date"}]) {
+        key
+        value
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AllProductsQuery, AllProductsQueryVariables>;

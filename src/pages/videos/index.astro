@@ -1,0 +1,82 @@
+---
+// @ts-ignore
+import { motion } from "motion/react";
+import ScrollingLayout from "../../layouts/ScrollingLayout.astro";
+import type { SEOFieldProps } from "../../layouts/BaseLayout.astro";
+
+const SEO: SEOFieldProps = {
+  title: "deathscene | video gallery",
+  description: "explore videos from the archive",
+};
+
+type Video = {
+  src: string;
+  aspectRatio: number; // width / height
+};
+
+const videos: Video[] = [
+  {
+    src: "https://cdn.shopify.com/videos/c/o/v/860a38f809fb4348b9f83a4c032a87ad.webm",
+    aspectRatio: 1.5,
+  },
+  {
+    src: "https://cdn.shopify.com/videos/c/o/v/2b00a62b55184bd584c842feb00df452.webm",
+    aspectRatio: 0.75,
+  },
+  // Add more videos here...
+];
+
+function deterministicOrder(src: string): number {
+  let hash = 0;
+  for (let i = 0; i < src.length; i++) {
+    hash = src.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return Math.abs(hash);
+}
+
+const orderedVideos = [...videos].sort(
+  (a, b) => deterministicOrder(a.src) - deterministicOrder(b.src)
+);
+
+const fadeIn = {
+  animate: { opacity: 1, y: 0 },
+  initial: { opacity: 0, y: 80 },
+};
+---
+
+<ScrollingLayout SEOFields={SEO}>
+  <div class="flex justify-center px-4 md:px-12 lg:px-[6%] pt-10">
+    <motion.div
+      client:load
+      className="max-w-screen-xl w-full grid gap-4"
+      style={{
+        gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))'
+      }}
+      animate="animate"
+      initial="initial"
+      variants={fadeIn}
+      transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
+    >
+      {orderedVideos.map((video) => {
+        const width = video.aspectRatio >= 1 ? "col-span-2" : "col-span-1";
+        const height = video.aspectRatio < 1 ? "row-span-2" : "row-span-1";
+
+        return (
+          <div
+            class={`relative w-full ${width} ${height} aspect-video overflow-hidden`}
+            style={`aspect-ratio: ${video.aspectRatio}`}
+          >
+            <video
+              src={video.src}
+              autoplay
+              muted
+              loop
+              playsinline
+              class="w-full h-full object-cover"
+            />
+          </div>
+        );
+      })}
+    </motion.div>
+  </div>
+</ScrollingLayout>

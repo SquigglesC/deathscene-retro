@@ -1,0 +1,54 @@
+---
+import Footer from "../../components/Footer.astro";
+import SearchOrders from "../../features/track/components/SearchOrders";
+import type { SEOFieldProps } from "../../layouts/BaseLayout.astro";
+import FixedLayout from "../../layouts/FixedLayout.astro";
+
+const SEO: SEOFieldProps = {
+  title: "deathscene | Track Your Order",
+  description: "Check the current status of your package.",
+};
+
+const error = Astro.url.searchParams.get("error");
+---
+
+<FixedLayout SEOFields={SEO}>
+  <main
+    class="w-full flex-1 flex flex-col justify-center items-center text-light h-full px-[5%]"
+  >
+    <div
+      class="flex flex-col sm:items-center lg:items-start max-w-[508px] gap-y-16"
+    >
+      <div class="flex flex-col gap-y-2">
+        <h2 class="text-[25px]">Track Your Order</h2>
+        <p class="font-light text-[15px]">
+          Type in your order number below to view <br class="lg:hidden" /> your tracking
+          details.
+        </p>
+      </div>
+      <SearchOrders client:load />
+    </div>
+  </main>
+  <div class="pr-[0%] md:pr-[5%] lg:pr-[5%]">
+    <Footer showIG={false}/>
+  </div>
+  <script define:vars={{ error }}>
+    if (typeof error === "string") {
+      alert("Order not found. Please try again.");
+    }
+  </script>
+</FixedLayout>
+
+<style>
+  h2 {
+    font-family: "Inter", san-serif;
+  }
+
+  p {
+    font-family: "Inter", sans-serif;
+  }
+
+  .text-light {
+    text-shadow: 0px 0px 6px rgba(235, 235, 235, 0.5);
+  }
+</style>

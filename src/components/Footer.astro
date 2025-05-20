@@ -1,0 +1,38 @@
+---
+import { Image } from "astro:assets";
+import ig from "../assets/icons/ig.svg";
+import { ROUTES } from "../utils/routes";
+
+interface Props {
+  showIG?: boolean;
+}
+
+const { showIG = true } = Astro.props;
+const currentYear = new Date().getFullYear();
+
+---
+
+<footer
+  id="footer"
+  class={`w-full flex flex-col items-center md:items-end gap-y-[60px] pt-10 ${!showIG ? "bottom-0 pb-5": "pb-20"}`}
+>
+  {
+    showIG && (
+      <a href={ROUTES.IG} target="_blank">
+        <Image src={ig} alt="Deathscene Instagram" width={55} height={55} />
+      </a>
+    )
+  }
+  <small class="text-[#2b2b2b] md:text-right text-center  text-[9px] xs:text-base">
+      ALL SALES FINAL<br>
+      REFUNDS VARY ON ISSUE<br>
+      contact@deathscenela.com<br>
+      Copyright © {currentYear}, deathscene.
+  </small>
+
+  <style>
+    p {
+      font-family: "Inter";
+    }
+  </style>
+</footer>

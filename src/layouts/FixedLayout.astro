@@ -1,0 +1,91 @@
+---
+import Background from "../components/Background.astro";
+import Header from '../components/Header.tsx'
+import Navbar from "../components/Navbar.tsx";
+
+import BaseLayout from "./BaseLayout.astro";
+import { type Props as SEOProps } from "astro-seo";
+import type { WithContext } from "schema-dts";
+import Contact from "../components/Contact";
+
+import Logo from "../assets/images/logo.svg";
+import Cart from "../assets/icons/cart.svg";
+import Hamburger from "../assets/icons/hamburger.svg";
+
+interface Props {
+  hasHomeBackground?: boolean;
+  isInitiallyOpen?: boolean;
+  SEOFields: SEOProps;
+  structuredData?: WithContext<any>;
+}
+
+const {
+  SEOFields,
+  structuredData,
+  hasHomeBackground = false,
+  isInitiallyOpen = false,
+} = Astro.props;
+---
+
+<BaseLayout structuredData={structuredData} SEOFields={SEOFields}>
+  <div class="h-svh w-full relative overflow-hidden flex flex-col">
+    <Header 
+      isHome={hasHomeBackground}
+      transition:name="navbar"
+    > 
+      <Logo
+        slot={"logo"}
+        height={hasHomeBackground ? 125 : 72}
+        width={hasHomeBackground ? 290 : 154}
+        class="text-light h-full w-auto max-h-[125px]  hover:text-primary drop-shadow-[0px_0px_2px_rgba(235,235,235,0.6)] hover:drop-shadow-[0px_0px_4px_rgba(235,0,0,.4)] transition-all duration-500 ease-in-out"
+      />
+    </Header>
+
+    <Navbar
+      client:only
+      initialState={isInitiallyOpen}
+      isHome={hasHomeBackground}
+      transition:name="navbar"
+    >
+
+    <Logo
+    slot={"logo"}
+    height={hasHomeBackground ? 28 : 28}
+    width={hasHomeBackground ? 75 : 75}
+    class="text-light  hover:text-primary drop-shadow-[0px_0px_2px_rgba(235,235,235,0.6)] hover:drop-shadow-[0px_0px_4px_rgba(235,0,0,.4)] transition-all duration-500 ease-in-out"
+  />
+
+      <Logo
+        slot={"mobilelogo"}
+        height={28}
+        width={75}
+        class="text-light hover:text-primary drop-shadow-[0px_0px_2px_rgba(235,235,235,0.4)] hover:drop-shadow-[0px_0px_4px_rgba(235,0,0,.4)] transition-all duration-500 ease-in-out"
+      />
+
+      <Hamburger
+        slot={"hamburger"}
+        height={18}
+        width={20}
+        class={"brightness-0 text-light hover:text-primary drop-shadow-[0px_0px_2px_rgba(235,235,235,0.4)] hover:drop-shadow-[0px_0px_4px_rgba(235,0,0,.4)] transition-all duration-500 ease-in-out"}
+      />
+
+      <Hamburger
+        slot={"insta-icon"}
+        height={30}
+        width={30}
+        class={"text-light hover:text-primary drop-shadow-[0px_0px_2px_rgba(235,235,235,0.4)] hover:drop-shadow-[0px_0px_4px_rgba(235,0,0,.4)] transition-all duration-500 ease-in-out"}
+      />
+
+      <Cart 
+        slot="cart-icon" 
+        height={30} 
+        width={34}
+        class={"text-light hover:text-primary drop-shadow-[0px_0px_2px_rgba(235,235,235,0.4)] hover:drop-shadow-[0px_0px_4px_rgba(235,0,0,.4)] transition-all duration-500 ease-in-out"}
+        />
+      
+      <Contact client:idle slot="contact" />
+    </Navbar>
+    <slot />
+    <Background />
+  </div>
+</BaseLayout>

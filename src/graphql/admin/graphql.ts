@@ -1,4 +1,5 @@
 /* eslint-disable */
+import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -16667,7 +16668,6 @@ export type DomainLocalization = {
  * - Re-create orders manually from active sales channels.
  * - Sell products at discount or wholesale rates.
  * - Take pre-orders.
- * - Save an order as a draft and resume working on it later.
  *
  * For draft orders in multiple currencies `presentment_money` is the source of truth for what a customer is going to be charged and `shop_money` is an estimate of what the merchant might receive in their shop currency.
  *
@@ -16872,7 +16872,6 @@ export type DraftOrder = CommentEventSubject & HasEvents & HasLocalizationExtens
  * - Re-create orders manually from active sales channels.
  * - Sell products at discount or wholesale rates.
  * - Take pre-orders.
- * - Save an order as a draft and resume working on it later.
  *
  * For draft orders in multiple currencies `presentment_money` is the source of truth for what a customer is going to be charged and `shop_money` is an estimate of what the merchant might receive in their shop currency.
  *
@@ -16900,7 +16899,6 @@ export type DraftOrderEventsArgs = {
  * - Re-create orders manually from active sales channels.
  * - Sell products at discount or wholesale rates.
  * - Take pre-orders.
- * - Save an order as a draft and resume working on it later.
  *
  * For draft orders in multiple currencies `presentment_money` is the source of truth for what a customer is going to be charged and `shop_money` is an estimate of what the merchant might receive in their shop currency.
  *
@@ -16926,7 +16924,6 @@ export type DraftOrderLineItemsArgs = {
  * - Re-create orders manually from active sales channels.
  * - Sell products at discount or wholesale rates.
  * - Take pre-orders.
- * - Save an order as a draft and resume working on it later.
  *
  * For draft orders in multiple currencies `presentment_money` is the source of truth for what a customer is going to be charged and `shop_money` is an estimate of what the merchant might receive in their shop currency.
  *
@@ -16954,7 +16951,6 @@ export type DraftOrderLocalizationExtensionsArgs = {
  * - Re-create orders manually from active sales channels.
  * - Sell products at discount or wholesale rates.
  * - Take pre-orders.
- * - Save an order as a draft and resume working on it later.
  *
  * For draft orders in multiple currencies `presentment_money` is the source of truth for what a customer is going to be charged and `shop_money` is an estimate of what the merchant might receive in their shop currency.
  *
@@ -16982,7 +16978,6 @@ export type DraftOrderLocalizedFieldsArgs = {
  * - Re-create orders manually from active sales channels.
  * - Sell products at discount or wholesale rates.
  * - Take pre-orders.
- * - Save an order as a draft and resume working on it later.
  *
  * For draft orders in multiple currencies `presentment_money` is the source of truth for what a customer is going to be charged and `shop_money` is an estimate of what the merchant might receive in their shop currency.
  *
@@ -17005,7 +17000,6 @@ export type DraftOrderMetafieldArgs = {
  * - Re-create orders manually from active sales channels.
  * - Sell products at discount or wholesale rates.
  * - Take pre-orders.
- * - Save an order as a draft and resume working on it later.
  *
  * For draft orders in multiple currencies `presentment_money` is the source of truth for what a customer is going to be charged and `shop_money` is an estimate of what the merchant might receive in their shop currency.
  *
@@ -24090,7 +24084,7 @@ export type LineItem = Node & {
   product?: Maybe<Product>;
   /** The number of units ordered, including refunded and removed units. */
   quantity: Scalars['Int']['output'];
-  /** The number of units ordered, excluding refunded units. */
+  /** The number of units ordered, excluding refunded units and removed units. */
   refundableQuantity: Scalars['Int']['output'];
   /** Whether physical shipping is required for the variant. */
   requiresShipping: Scalars['Boolean']['output'];
@@ -30812,9 +30806,53 @@ export type Mutation = {
    * such as total taxes or price without actually creating a draft order.
    */
   draftOrderCalculate?: Maybe<DraftOrderCalculatePayload>;
-  /** Completes a draft order and creates an order. */
+  /**
+   * Completes a [draft order](https://shopify.dev/docs/api/admin-graphql/latest/objects/DraftOrder) and
+   * converts it into a [regular order](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order).
+   * The order appears in the merchant's orders list, and the customer can be notified about their order.
+   *
+   * Use the `draftOrderComplete` mutation when a merchant is ready to finalize a draft order and create a real
+   * order in their store. The `draftOrderComplete` mutation also supports sales channel attribution for tracking
+   * order sources using the [`sourceName`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/draftOrderComplete#arguments-sourceName)
+   * argument, [cart validation](https://shopify.dev/docs/apps/build/checkout/cart-checkout-validation)
+   * controls for app integrations, and detailed error reporting for failed completions.
+   *
+   * You can complete a draft order with different [payment scenarios](https://help.shopify.com/manual/fulfillment/managing-orders/payments):
+   *
+   * - Mark the order as paid immediately.
+   * - Set the order as payment pending using [payment terms](https://shopify.dev/docs/api/admin-graphql/latest/objects/PaymentTerms).
+   * - Specify a custom payment amount.
+   * - Select a specific payment gateway.
+   *
+   * > Note:
+   * > When completing a draft order, inventory is [reserved](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps#inventory-states)
+   * for the items in the order. This means the items will no longer be available for other customers to purchase.
+   * Make sure to verify inventory availability before completing the draft order.
+   */
   draftOrderComplete?: Maybe<DraftOrderCompletePayload>;
-  /** Creates a draft order. */
+  /**
+   * Creates a [draft order](https://shopify.dev/docs/api/admin-graphql/latest/objects/DraftOrder)
+   * with attributes such as customer information, line items, shipping and billing addresses, and payment terms.
+   * Draft orders are useful for merchants that need to:
+   *
+   * - Create new orders for sales made by phone, in person, by chat, or elsewhere. When a merchant accepts payment for a draft order, an order is created.
+   * - Send invoices to customers with a secure checkout link.
+   * - Use custom items to represent additional costs or products not in inventory.
+   * - Re-create orders manually from active sales channels.
+   * - Sell products at discount or wholesale rates.
+   * - Take pre-orders.
+   *
+   * After creating a draft order, you can:
+   * - Send an invoice to the customer using the [`draftOrderInvoiceSend`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/draftOrderInvoiceSend) mutation.
+   * - Complete the draft order using the [`draftOrderComplete`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/draftOrderComplete) mutation.
+   * - Update the draft order using the [`draftOrderUpdate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/draftOrderUpdate) mutation.
+   * - Duplicate a draft order using the [`draftOrderDuplicate`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/draftOrderDuplicate) mutation.
+   * - Delete the draft order using the [`draftOrderDelete`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/draftOrderDelete) mutation.
+   *
+   * > Note:
+   * > When you create a draft order, you can't [reserve or hold inventory](https://shopify.dev/docs/apps/build/orders-fulfillment/inventory-management-apps#inventory-states) for the items in the order by default.
+   * > However, you can reserve inventory using the [`reserveInventoryUntil`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/draftOrderCreate#arguments-input.fields.reserveInventoryUntil) input.
+   */
   draftOrderCreate?: Maybe<DraftOrderCreatePayload>;
   /** Creates a draft order from order. */
   draftOrderCreateFromOrder?: Maybe<DraftOrderCreateFromOrderPayload>;
@@ -31270,7 +31308,31 @@ export type Mutation = {
   mobilePlatformApplicationUpdate?: Maybe<MobilePlatformApplicationUpdatePayload>;
   /** Cancels an order. */
   orderCancel?: Maybe<OrderCancelPayload>;
-  /** Captures payment for an authorized transaction on an order. An order can only be captured if it has a successful authorization transaction. Capturing an order will claim the money reserved by the authorization. orderCapture can be used to capture multiple times as long as the OrderTransaction is multi-capturable. To capture a partial payment, the included `amount` value should be less than the total order amount. Multi-capture is available only to stores on a Shopify Plus plan. */
+  /**
+   * Captures payment for an authorized transaction on an order. Use this mutation to claim the money that was previously
+   * reserved by an authorization transaction.
+   *
+   * The `orderCapture` mutation can be used in the following scenarios:
+   *
+   * - To capture the full amount of an authorized transaction
+   * - To capture a partial payment by specifying an amount less than the total order amount
+   * - To perform multiple captures on the same order, as long as the order transaction is
+   * [multi-capturable](https://shopify.dev/docs/api/admin-graphql/latest/objects/ordertransaction#field-OrderTransaction.fields.multiCapturable)
+   *
+   * > Note:
+   * > Multi-capture functionality is only available to stores on a
+   * [Shopify Plus plan](https://help.shopify.com/manual/intro-to-shopify/pricing-plans/plans-features/shopify-plus-plan).
+   * For multi-currency orders, the [`currency`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/orderCapture#arguments-input.fields.currency)
+   * field is required and should match the presentment currency from the order.
+   *
+   * After capturing a payment, you can:
+   *
+   * - View the transaction details including status, amount, and processing information.
+   * - Track the captured amount in both shop and presentment currencies.
+   * - Monitor the transaction's settlement status.
+   *
+   * Learn more about [order transactions](https://shopify.dev/docs/api/admin-graphql/latest/objects/OrderTransaction).
+   */
   orderCapture?: Maybe<OrderCapturePayload>;
   /** Closes an open order. */
   orderClose?: Maybe<OrderClosePayload>;
@@ -31659,7 +31721,41 @@ export type Mutation = {
    * You can use the `quantityRulesDelete` mutation to delete a set of quantity rules from a price list.
    */
   quantityRulesDelete?: Maybe<QuantityRulesDeletePayload>;
-  /** Creates a refund. */
+  /**
+   * Creates a refund for an order, allowing you to process returns and issue payments back to customers.
+   *
+   * Use the `refundCreate` mutation to programmatically process refunds in scenarios where you need to
+   * return money to customers, such as when handling returns, processing chargebacks, or correcting
+   * order errors.
+   *
+   * The `refundCreate` mutation supports various refund scenarios:
+   *
+   * - Refunding line items with optional restocking
+   * - Refunding shipping costs
+   * - Refunding duties and import taxes
+   * - Refunding additional fees
+   * - Processing refunds through different payment methods
+   * - Issuing store credit refunds (when enabled)
+   *
+   * You can create both full and partial refunds, and optionally allow over-refunding in specific
+   * cases. The mutation also supports [idempotent requests](https://shopify.dev/docs/api/usage/idempotent-requests)
+   * to safely retry failed refund attempts.
+   *
+   * After creating a refund, you can track its status and details through the order's
+   * [`refunds`](https://shopify.dev/docs/api/admin-graphql/latest/objects/Order#field-Order.fields.refunds)
+   * field. The refund is associated with the order and can be used for reporting and reconciliation purposes.
+   *
+   * Learn more about
+   * [managing returns](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/build-return-management)
+   * and [refunding duties](https://shopify.dev/docs/apps/build/orders-fulfillment/returns-apps/view-and-refund-duties).
+   *
+   * > Note:
+   * > The refunding behavior of the `refundCreate` mutation is similar to the
+   * [`refundReturn`](https://shopify.dev/docs/api/admin-graphql/latest/mutations/returnRefund)
+   * mutation. The key difference is that the `refundCreate` mutation lets you to specify restocking behavior
+   * for line items, whereas the `returnRefund` mutation focuses solely on handling the financial refund without
+   * any restocking input.
+   */
   refundCreate?: Maybe<RefundCreatePayload>;
   /**
    * Approves a customer's return request.
@@ -38128,7 +38224,30 @@ export type OrderStagedChangeRemoveShippingLine = {
   shippingLine: ShippingLine;
 };
 
-/** A payment transaction in the context of an order. */
+/**
+ * The `OrderTransaction` object represents a payment transaction that's associated with an order. An order
+ * transaction is a specific action or event that happens within the context of an order, such as a customer paying
+ * for a purchase or receiving a refund, or other payment-related activity.
+ *
+ * Use the `OrderTransaction` object to capture the complete lifecycle of a payment, from initial
+ * authorization to final settlement, including refunds and currency exchanges. Common use cases for using the
+ * `OrderTransaction` object include:
+ *
+ * - Processing new payments for orders
+ * - Managing payment authorizations and captures
+ * - Processing refunds for returned items
+ * - Tracking payment status and errors
+ * - Managing multi-currency transactions
+ * - Handling payment gateway integrations
+ *
+ * Each `OrderTransaction` object has a [`kind`](https://shopify.dev/docs/api/admin-graphql/latest/enums/OrderTransactionKind)
+ * that defines the type of transaction and a [`status`](https://shopify.dev/docs/api/admin-graphql/latest/enums/OrderTransactionStatus)
+ * that indicates the current state of the transaction. The object stores detailed information about payment
+ * methods, gateway processing, and settlement details.
+ *
+ * Learn more about [payment processing](https://help.shopify.com/manual/payments)
+ * and [payment gateway integrations](https://www.shopify.com/ca/payment-gateways).
+ */
 export type OrderTransaction = Node & {
   __typename?: 'OrderTransaction';
   /** The masked account number associated with the payment method. */
@@ -42981,7 +43100,7 @@ export type ProductResourceFeedbackInput = {
   feedbackGeneratedAt: Scalars['DateTime']['input'];
   /**
    * A concise set of copy strings to be displayed to merchants. Used to guide merchants in resolving problems that your app encounters when trying to make use of their products.
-   * You can specify up to four messages. Each message is limited to 100 characters.
+   * You can specify up to ten messages. Each message is limited to 100 characters.
    */
   messages?: InputMaybe<Array<Scalars['String']['input']>>;
   /** The ID of the product that the feedback was created on. */
@@ -43176,6 +43295,8 @@ export enum ProductSetUserErrorCode {
   CannotCombineLinkedAndNonlinkedOptionValues = 'CANNOT_COMBINE_LINKED_AND_NONLINKED_OPTION_VALUES',
   /** The metafield violates a capability restriction. */
   CapabilityViolation = 'CAPABILITY_VIOLATION',
+  /** Duplicated metafield value for linked option. */
+  DuplicatedMetafieldValue = 'DUPLICATED_METAFIELD_VALUE',
   /** Duplicated option name. */
   DuplicatedOptionName = 'DUPLICATED_OPTION_NAME',
   /** Duplicated option value. */
@@ -52979,6 +53100,10 @@ export enum ShopifyPaymentsBankAccountStatus {
 export enum ShopifyPaymentsBusinessType {
   /** The business type is a corporation. */
   Corporation = 'CORPORATION',
+  /** The business type is a free zone establishment. */
+  FreeZoneEstablishment = 'FREE_ZONE_ESTABLISHMENT',
+  /** The business type is a free zone LLC. */
+  FreeZoneLlc = 'FREE_ZONE_LLC',
   /** The business type is a government. */
   Government = 'GOVERNMENT',
   /** The business type is an incorporated partnership. */
@@ -53017,6 +53142,8 @@ export enum ShopifyPaymentsBusinessType {
   PublicCorporation = 'PUBLIC_CORPORATION',
   /** The business type is a public partnership. */
   PublicPartnership = 'PUBLIC_PARTNERSHIP',
+  /** The business type is a sole establishment. */
+  SoleEstablishment = 'SOLE_ESTABLISHMENT',
   /** The business type is a sole proprietorship. */
   SoleProp = 'SOLE_PROP',
   /** The business type is an unincorporated partnership. */
@@ -58772,7 +58899,7 @@ export enum ValidationUserErrorCode {
   InvalidType = 'INVALID_TYPE',
   /** The value is invalid for the metafield type or for the definition options. */
   InvalidValue = 'INVALID_VALUE',
-  /** Cannot have more than 5 active validation functions. */
+  /** Cannot have more than 25 active validation functions. */
   MaxValidationsActivated = 'MAX_VALIDATIONS_ACTIVATED',
   /** Validation not found. */
   NotFound = 'NOT_FOUND',
@@ -59767,6 +59894,13 @@ export enum WeightUnit {
   Pounds = 'POUNDS'
 }
 
+export type OrderByConfirmationNumberQueryVariables = Exact<{
+  query: Scalars['String']['input'];
+}>;
+
+
+export type OrderByConfirmationNumberQuery = { __typename?: 'QueryRoot', orders: { __typename?: 'OrderConnection', edges: Array<{ __typename?: 'OrderEdge', node: { __typename?: 'Order', id: string, confirmationNumber?: string | null, fulfillments: Array<{ __typename?: 'Fulfillment', estimatedDeliveryAt?: any | null, trackingInfo: Array<{ __typename?: 'FulfillmentTrackingInfo', company?: string | null, number?: string | null, url?: any | null }>, fulfillmentLineItems: { __typename?: 'FulfillmentLineItemConnection', edges: Array<{ __typename?: 'FulfillmentLineItemEdge', node: { __typename?: 'FulfillmentLineItem', id: string, quantity?: number | null, lineItem: { __typename?: 'LineItem', name: string, image?: { __typename?: 'Image', altText?: string | null, height?: number | null, width?: number | null, url: any } | null } } }> }, location?: { __typename?: 'Location', fulfillmentService?: { __typename?: 'FulfillmentService', callbackUrl?: any | null, handle: string } | null } | null, events: { __typename?: 'FulfillmentEventConnection', edges: Array<{ __typename?: 'FulfillmentEventEdge', node: { __typename?: 'FulfillmentEvent', status: FulfillmentEventStatus, city?: string | null, province?: string | null, message?: string | null, happenedAt: any, latitude?: number | null, longitude?: number | null } }> } }> } }> } };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -59785,3 +59919,60 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+
+export const OrderByConfirmationNumberDocument = new TypedDocumentString(`
+    query orderByConfirmationNumber($query: String!) {
+  orders(first: 1, query: $query) {
+    edges {
+      node {
+        id
+        confirmationNumber
+        fulfillments {
+          estimatedDeliveryAt
+          trackingInfo(first: 1) {
+            company
+            number
+            url
+          }
+          fulfillmentLineItems(first: 100) {
+            edges {
+              node {
+                id
+                quantity
+                lineItem {
+                  name
+                  image {
+                    altText
+                    height
+                    width
+                    url
+                  }
+                }
+              }
+            }
+          }
+          location {
+            fulfillmentService {
+              callbackUrl
+              handle
+            }
+          }
+          events(first: 100) {
+            edges {
+              node {
+                status
+                city
+                province
+                message
+                happenedAt
+                latitude
+                longitude
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<OrderByConfirmationNumberQuery, OrderByConfirmationNumberQueryVariables>;

@@ -1,0 +1,262 @@
+---
+import ScrollingLayout from "../../layouts/ScrollingLayout.astro";
+import link from "../../assets/icons/link.svg";
+import { Image } from "astro:assets";
+import { executeAdmin } from "../../graphql/execute";
+import { orderByConfirmationNumberQuery } from "../../features/track/admin/getOrderByConfirmationNumber";
+import LastLocation from "../../features/track/components/LastLocation";
+
+import circle from "../../assets/icons/circle.svg";
+import Post from "../../assets/icons/post.svg";
+import dots from "../../assets/icons/dots.svg";
+
+import FAQ from "../../features/products/components/FAQ";
+import Footer from "../../components/Footer.astro";
+import type { SEOFieldProps } from "../../layouts/BaseLayout.astro";
+
+const { confirmationNumber } = Astro.params;
+
+const order = (
+  await executeAdmin(orderByConfirmationNumberQuery, {
+    query: `confirmation_number:${confirmationNumber}`,
+  })
+).orders?.edges[0]?.node;
+
+if (order === undefined) {
+  return Astro.redirect("/track?error=not-found");
+}
+
+const expectedDate = new Date(order?.fulfillments[0].estimatedDeliveryAt);
+const expectedMonth = expectedDate.toLocaleString("default", {
+  month: "short",
+});
+const expectedDay = expectedDate.getDate();
+
+const validEventTypes = ["IN_TRANSIT", "OUT_FOR_DELIVERY"];
+
+const validEvents = order?.fulfillments[0].events.edges
+  .filter((event) => validEventTypes.includes(event.node.status))
+  .reverse();
+
+const SEO: SEOFieldProps = {
+  title: `Deathscene | Track Order ${confirmationNumber}`,
+  description: `Track your order ${confirmationNumber} with Deathscene.`,
+  noindex: true,
+  nofollow: true,
+};
+
+export const prerender = false;
+---
+
+<ScrollingLayout SEOFields={SEO}>
+  <div class="flex w-full flex-col pt-[40px] lg:pt-[90px] px-10 sm:px-[6%] md:px-[10%] lg:px-[18%]">
+    <div class="flex flex-col w-full text-light">
+      <div class="flex flex-col lg:flex-row w-full gap-8 sm:gap-16 justify-around items-stretch sm:items-center">
+        {/* LEFT SIDE */}
+        <div class="flex flex-row w-full gap-4 bg-white/10 p-3 rounded-xs">
+          {/* Item List */}
+          <div class="flex flex-col gap-4 flex-1 min-w-0">
+            <h3 class="text-sm leading-[44%] pt-2">items</h3>
+            {
+              order.fulfillments[0].fulfillmentLineItems.edges.map((item) => (
+                <div class="flex flex-row gap-6">
+                  {/* Image + Item Info */}
+                  <div class="flex flex-row gap-6 flex-1 min-w-0">
+                    <Image
+                      src={item.node.lineItem.image?.url}
+                      width={64}
+                      height={64}
+                      alt={item.node.lineItem.name}
+                      loading="eager"
+                      class="shrink-0"
+                    />
+                    <div class="flex flex-col gap-y-2 min-w-0">
+                      <p class="font-semibold text-xs leading-none truncate">
+                        {item.node.lineItem.name}
+                      </p>
+                      <div class="flex flex-row font-light justify-between text-xs leading-none gap-4">
+                        <p>Item #{item.node.id.split("/").pop()}</p>
+                        <p>Qt. {item.node.quantity}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+          {/* Tracking Info */}
+          <a
+            href={order.fulfillments[0].trackingInfo[0].url}
+            target="_blank"
+            class="flex flex-row items-baseline gap-2 text-xs shadow-transition flex-shrink-0 max-w-[45%] min-w-0 pt-8"
+          >
+            <h3 class="leading-[1] break-words truncate min-w-0">
+              {order.fulfillments[0].trackingInfo[0].company}
+            </h3>
+            <p class="tracking-[5%] leading-[22px] break-all truncate min-w-0">
+              {order.fulfillments[0].trackingInfo[0].number}
+            </p>
+            <div class="pl-1 shrink-0">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15.5312 0L10.4375 0.03125C10.1875 0.03125 10 0.21875 10 0.46875V1.5C10 1.75 10.1875 1.96875 10.4375 1.96875L12.75 1.875L12.8125 1.9375L4.09375 10.6562C4.03125 10.7188 3.96875 10.8125 3.96875 10.9062C3.96875 11.0312 4.03125 11.125 4.09375 11.1875L4.8125 11.9062C4.875 11.9688 4.96875 12.0312 5.09375 12.0312C5.1875 12.0312 5.28125 11.9688 5.34375 11.9062L14.0625 3.1875L14.125 3.25L14.0312 5.5625C14.0312 5.8125 14.25 6.03125 14.5 6.03125V6H15.5312C15.7812 6 15.9688 5.8125 15.9688 5.5625L16 0.46875C16 0.21875 15.7812 0 15.5312 0ZM13.5 9H13C12.7188 9 12.5 9.25 12.5 9.5V14.3125C12.5 14.4375 12.4062 14.5 12.3125 14.5H1.6875C1.5625 14.5 1.5 14.4375 1.5 14.3125V3.6875C1.5 3.59375 1.5625 3.5 1.6875 3.5H6.5C6.75 3.5 7 3.28125 7 3V2.5C7 2.25 6.75 2 6.5 2H1.5C0.65625 2 0 2.6875 0 3.5V14.5C0 15.3438 0.65625 16 1.5 16H12.5C13.3125 16 14 15.3438 14 14.5V9.5C14 9.25 13.75 9 13.5 9Z"
+                  fill="currentColor"></path>
+              </svg>
+            </div>
+          </a>
+        </div>
+
+        {/* RIGHT SIDE (MAP) */}
+        <div class="relative w-full lg:w-auto">
+          <div
+            class="relative w-full h-[70vw] sm:h-[60vw] max-h-[50vh] lg:w-[300px] lg:h-auto lg:aspect-[1.1] bg-white/20 grayscale shadow-[0px_0px_6px_rgba(235,235,235,0.25)]"
+          >
+            {/* Title overlay inside map */}
+            <div
+              class="absolute top-4 text-[15px] left-4 z-20 bg-stone-600/60 pr-4 pl-2 py-2 rounded-md title-shadow"
+            >
+              <h3 class=" leading-none mb-1">
+                expected
+              </h3>
+              <h1 class="uppercase leading-none">
+                {expectedMonth}{expectedDay}
+              </h1>
+              <h2 class="uppercase leading-none">TUESDAY</h2>
+            </div>
+
+            {/* Map dark overlay */}
+            <div class="absolute inset-0 bg-black/50 z-10 pointer-events-none">
+            </div>
+
+            {/* Map content */}
+            <LastLocation
+              latitude={validEvents[0].node.latitude || 0}
+              longitude={validEvents[0].node.longitude || 0}
+              client:only
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    {/* EVENTS */}
+    <div class="flex flex-col mt-12 px-5 text-light">
+      {
+        validEvents.map((event, idx, events) => {
+          const happenedAt = new Date(event.node.happenedAt);
+          const happenedAtMonth = happenedAt.toLocaleString("default", {
+            month: "short",
+          });
+          const happenedAtDay = happenedAt.getDate();
+          const happenedAtTime = happenedAt.toLocaleTimeString("default", {
+            hour: "numeric",
+            minute: "2-digit",
+          });
+
+          return (
+            <div
+              id={`event-${idx}`}
+              class={`flex flex-row gap-6 justify-start items-start relative mb-8 ${idx > 3 ? "hidden" : ""}`}
+            >
+              <Image
+                class="post-shadow"
+                src={circle}
+                alt="circle"
+                width={25}
+                height={25}
+              />
+              <Post
+                class={`absolute left-[9px] top-6 post-shadow object-fill ${idx === events.length - 1 ? "hidden" : ""}`}
+                width={5}
+                style={{
+                  height:
+                    idx === events.length - 1 ? "100%" : "calc(100% + 10px)",
+                }}
+                fill="currentColor"
+              />
+              <div class="flex flex-col capitalize">
+                <h3 class="text-sm leading-[44%] pt-2 event-text-transform whitespace-nowrap">
+                  {event.node.message}
+                </h3>
+                <p class="text-sm leading-none mt-2 font-light whitespace-normal">
+                  {event.node.city}, {event.node.province} - {happenedAtMonth}{" "}
+                  {happenedAtDay}, {happenedAtTime}
+                </p>
+              </div>
+            </div>
+          );
+        })
+      }
+      <button
+        class="flex flex-row gap-9 items-center relative shadow-transition"
+        id="show-more"
+      >
+        <Image class="post-shadow w-[5px] ml-[9.5 px]" src={dots} alt="dots" />
+        <p class="font-normal text-xs leading-none">Show More</p>
+      </button>
+    </div>
+    <FAQ client:visible>
+      <Footer showIG={false} />
+    </FAQ>
+  </div>
+</ScrollingLayout>
+
+<script is:inline>
+  const showMoreButton = document.getElementById("show-more");
+  const eventElements = document.querySelectorAll("[id^='event-']");
+  let visibleEvents = 4;
+  if (showMoreButton) {
+    showMoreButton.addEventListener("click", () => {
+      for (let i = visibleEvents; i < visibleEvents + 4; i++) {
+        if (eventElements[i]) {
+          eventElements[i].classList.remove("hidden");
+        }
+      }
+      visibleEvents += 4;
+      if (visibleEvents >= eventElements.length) {
+        showMoreButton.classList.add("hidden");
+      }
+    });
+  }
+</script>
+
+<style>
+  h3,
+  p,
+  h1,
+  h2 {
+    font-family: "Inter";
+  }
+
+  .text-light {
+    text-shadow: 0px 0px 6px rgba(235, 235, 235, 0.5);
+  }
+
+  .title-shadow {
+    text-shadow:
+      0px 0px 6px rgba(235, 235, 235, 0.5),
+      0px 0px 12px rgba(0, 0, 0, 0.6);
+  }
+
+  .post-shadow {
+    filter: drop-shadow(0px 0px 2px rgba(235, 235, 235, 0.4));
+  }
+
+  .shadow-transition {
+    color: #eaeaea;
+    text-shadow: 0px 0px 6px rgba(235, 235, 235, 0.5);
+    transition:
+      color 0.3s ease-in-out,
+      text-shadow 0.3s ease-in-out;
+  }
+
+  .shadow-transition:hover {
+    color: #eb0000;
+    text-shadow: 0px 0px 6px rgba(235, 0, 0, 1);
+  }
+</style>

@@ -1,0 +1,1 @@
+export const ENVIRONMENT = import.meta.env.PUBLIC_VERCEL_ENV || "development"; // fail forward

@@ -1,0 +1,26 @@
+---
+import Thumbnail from "./Thumbnail.astro";
+import { execute } from "../../../graphql/execute";
+import { AllProductsQuery } from "../storefront/getAllProducts";
+import Picture from "astro/components/Picture.astro";
+const products = (await execute(AllProductsQuery)).products.nodes;
+---
+<div class="grid flex-wrap justify-center grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-12 px-3">
+  {
+    products.map((product) => {      
+      return (
+        <Thumbnail product={product}>
+          <Picture
+            slot="thumbnail"
+            class="drop-shadow-lg shadow-lg lg:max-w-[260px]"
+            src={product.featuredImage?.url}
+            alt={product.featuredImage?.altText || product.title}
+            width={product.featuredImage?.width || 260}
+            height={product.featuredImage?.height || 260}
+            loading={"eager"}
+          />
+        </Thumbnail>
+      );
+    })
+  }
+</div>

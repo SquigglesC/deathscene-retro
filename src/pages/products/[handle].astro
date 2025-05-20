@@ -1,0 +1,56 @@
+---
+import { execute } from "../../graphql/execute";
+import { ProductByHandleQuery } from "../../features/products/storefront/getProductByHandle";
+import Product from "../../features/products/components/Product.astro";
+import ScrollingLayout from "../../layouts/ScrollingLayout.astro";
+import type { SEOFieldProps } from "../../layouts/BaseLayout.astro";
+import type { WithContext, Product as DProduct } from "schema-dts";
+
+const { handle } = Astro.params;
+
+const product = (await execute(ProductByHandleQuery, { handle: handle! }))
+  .product;
+
+const SEO: SEOFieldProps = {
+  title: `deathscene | ${product?.title}`,
+  description: product?.description,
+  openGraph: {
+    basic: {
+      type: "website",
+      title: product?.title || "deathscene",
+      image: product?.featuredImage?.url,
+      url: Astro.url,
+    },
+    optional: {
+      description: product?.description,
+    },
+  },
+};
+
+/*
+https://developers.google.com/search/docs/appearance/structured-data/merchant-listing
+*/
+const structuredData: WithContext<DProduct> = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: product?.title,
+  image: product?.images.edges.map((edge) => edge.node.url),
+  description: product?.description,
+  brand: {
+    "@type": "Brand",
+    name: "deathscene",
+  },
+  offers: {
+    "@type": "Offer",
+    price: product?.priceRange?.minVariantPrice.amount,
+    priceCurrency: "USD",
+    availability: product?.totalInventory || 0 > 0 ? "InStock" : "OutOfStock",
+  },
+};
+
+export const prerender = false;
+---
+
+<ScrollingLayout SEOFields={SEO} structuredData={structuredData}>
+  <Product product={product!} />
+</ScrollingLayout>
