@@ -42,7 +42,7 @@ const { SEOFields, structuredData } = Astro.props;
     <!-- End Meta Pixel Code -->
   </head>
   <body class="bg-dark">
-  <OverlayScrollbarsComponent
+  <!-- <OverlayScrollbarsComponent
     client:load
     element="div"
     options={{
@@ -51,11 +51,9 @@ const { SEOFields, structuredData } = Astro.props;
         autoHideDelay: 500,
       },
     }}
-  >
-      <slot>
-            <p>This is my fallback content, if there is no child passed into slot</p>
-      </slot>
-  </OverlayScrollbarsComponent>
+  > -->
+      <slot />
+  <!-- </OverlayScrollbarsComponent> -->
   </body>
 </html>
 <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
