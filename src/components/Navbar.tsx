@@ -196,7 +196,7 @@ export default function Navbar({ initialState, cartIcon, hamburger, logo, mobile
             onClick={onClose}
             className="fixed inset-0 z-40 bg-dark justify-between items-start text-light flex flex-col py-[80px] pl-[10%] pr-[5%]"
           >
-            <button className="z-50 self-end font-extrabold text-4xl leading-none p-3 text-light hover:text-primary drop-shadow-[0px_0px_2px_rgba(235,235,235,0.4)] hover:drop-shadow-[0px_0px_4px_rgba(235,0,0,.4)] transition-all duration-500 ease-in-out">
+            <button className="z-50 self-end font-extrabold text-4xl leading-none p-3 text-light hover:text-primary drop-shadow-[0px_0px_2px_rgba(235,235,235,0.4)] hover:drop-shadow-[0px_0px_4px_rgba(255,255,255,.4)] transition-all duration-500 ease-in-out">
               ✕
             </button>
 

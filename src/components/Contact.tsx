@@ -7,7 +7,7 @@ import {
   Textarea,
   Dialog,
   DialogContent,
-} from "@relume_io/relume-ui";
+} from "./input/ContactUI";
 import Button, { BUTTON_VARIANTS } from "./input/Button";
 import NavLink from "./input/NavLink";
 
@@ -28,7 +28,7 @@ export default function Contact() {
       {/* Dialog component */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent
-          className="fixed left-1/2 top-1/2 h-auto w-full max-w-[90%] lg:max-w-lg -translate-x-1/2 -translate-y-1/2 bg-dark text-light px-6 pt-10 pb-8 shadow-2xl shadow-black/80"
+          className="fixed left-1/2 top-1/2 h-auto w-full max-w-[90%] lg:max-w-xl -translate-x-1/2 -translate-y-1/2 bg-dark text-light px-6 pt-8 pb-6 shadow-2xl shadow-black/80"
           overlayClassName="bg-black/90"
         >
           <div className="mb-8 text-center">
@@ -36,7 +36,7 @@ export default function Contact() {
               CONTACT
             </h2>
           </div>
-          <div className="grid gap-8">
+          <div className="grid gap-5">
             <div className="grid">
               <Label
                 htmlFor="subject"
@@ -51,7 +51,7 @@ export default function Contact() {
                 placeholder="Enter your subject"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
-                className="bg-dark text-light border-gray rounded-xs text-sm"
+                className="bg-dark text-light border-gray rounded-xs text-xs"
                 style={{ fontFamily: "Inter" }}
               />
             </div>
@@ -68,7 +68,7 @@ export default function Contact() {
                 placeholder="Enter your message"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="bg-dark text-light border-gray rounded-xs text-sm"
+                className="bg-dark text-light border-gray rounded-xs text-xs"
                 style={{ fontFamily: "Inter" }}
               />
             </div>
