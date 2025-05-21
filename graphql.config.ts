@@ -20,7 +20,7 @@ const config: CodegenConfig = {
       preset: "client",
       documents: ["src/features/**/storefront/*.ts"],
       schema: {
-        "https://testingthemes-9552.myshopify.com/api/2024-07/graphql.json": {
+        "https://testingthemes-9552.myshopify.com/api/2025-01/graphql.json": {
           headers: {
             "X-Shopify-Storefront-Access-Token":
               SHOPIFY_STOREFRONT_ACCESS_TOKEN,
@@ -40,7 +40,7 @@ const config: CodegenConfig = {
         useTypeImports: true,
       },
       schema: {
-        "https://testingthemes-9552.myshopify.com/admin/api/2024-07/graphql.json":
+        "https://testingthemes-9552.myshopify.com/admin/api/2025-01/graphql.json":
           {
             headers: {
               "X-Shopify-Access-Token": SHOPIFY_ADMIN_ACCESS_TOKEN,
