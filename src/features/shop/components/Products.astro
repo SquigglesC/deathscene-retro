@@ -9,9 +9,17 @@ const products = (await execute(AllProductsQuery)).products.nodes;
   {
     products.map((product) => {      
       return (
-        <div>
-          test product
-        </div>
+        <Thumbnail product={product}>
+          <Picture
+            slot="thumbnail"
+            class="drop-shadow-lg shadow-lg lg:max-w-[260px]"
+            src={product.featuredImage?.url}
+            alt={product.featuredImage?.altText || product.title}
+            width={product.featuredImage?.width || 260}
+            height={product.featuredImage?.height || 260}
+            loading={"eager"}
+          />
+        </Thumbnail>
       );
     })
   }
