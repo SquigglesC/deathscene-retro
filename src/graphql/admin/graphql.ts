@@ -1794,6 +1794,7 @@ export type ArticleCommentsArgs = {
 
 /** An article in the blogging system. */
 export type ArticleCommentsCountArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
   query?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -2455,6 +2456,15 @@ export type BlogArticlesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+/**
+ * Shopify stores come with a built-in blogging engine, allowing a shop to have one or more blogs.  Blogs are meant
+ * to be used as a type of magazine or newsletter for the shop, with content that changes over time.
+ */
+export type BlogArticlesCountArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -4402,7 +4412,7 @@ export type Channel = Node & {
   productPublicationsV3: ResourcePublicationConnection;
   /** The list of products published to the channel. */
   products: ProductConnection;
-  /** The count of products published to the channel. Limited to a maximum of 10000. */
+  /** The count of products published to the channel. Limited to a maximum of 10000 by default. */
   productsCount?: Maybe<Count>;
   /** Whether the channel supports future publishing. */
   supportsFuturePublishing: Scalars['Boolean']['output'];
@@ -8105,7 +8115,7 @@ export type CompanyLocation = CommentEventSubject & HasEvents & HasMetafieldDefi
   buyerExperienceConfiguration?: Maybe<BuyerExperienceConfiguration>;
   /** The list of catalogs associated with the company location. */
   catalogs: CatalogConnection;
-  /** The number of catalogs associated with the company location. Limited to a maximum of 10000. */
+  /** The number of catalogs associated with the company location. Limited to a maximum of 10000 by default. */
   catalogsCount?: Maybe<Count>;
   /** The company that the company location belongs to. */
   company: Company;
@@ -43744,7 +43754,7 @@ export type QueryRoot = {
   __typename?: 'QueryRoot';
   /** List of abandoned checkouts. Includes checkouts that were recovered after being abandoned. */
   abandonedCheckouts: AbandonedCheckoutConnection;
-  /** Returns the count of abandoned checkouts for the given shop. Limited to a maximum of 10000. */
+  /** Returns the count of abandoned checkouts for the given shop. Limited to a maximum of 10000 by default. */
   abandonedCheckoutsCount?: Maybe<Count>;
   /** Returns an abandonment by ID. */
   abandonment?: Maybe<Abandonment>;
@@ -43849,7 +43859,7 @@ export type QueryRoot = {
   catalogOperations: Array<ResourceOperation>;
   /** The catalogs belonging to the shop. */
   catalogs: CatalogConnection;
-  /** The count of catalogs belonging to the shop. Limited to a maximum of 10000. */
+  /** The count of catalogs belonging to the shop. Limited to a maximum of 10000 by default. */
   catalogsCount?: Maybe<Count>;
   /**
    * Lookup a channel by ID.
@@ -43894,7 +43904,7 @@ export type QueryRoot = {
   collectionSavedSearches: SavedSearchConnection;
   /** Returns a list of collections. */
   collections: CollectionConnection;
-  /** Count of collections. Limited to a maximum of 10000. */
+  /** Count of collections. Limited to a maximum of 10000 by default. */
   collectionsCount?: Maybe<Count>;
   /** Returns a Comment resource by ID. */
   comment?: Maybe<Comment>;
@@ -43980,7 +43990,7 @@ export type QueryRoot = {
   discountNode?: Maybe<DiscountNode>;
   /** Returns a list of discounts. */
   discountNodes: DiscountNodeConnection;
-  /** The total number of discounts for the shop. Limited to a maximum of 10000. */
+  /** The total number of discounts for the shop. Limited to a maximum of 10000 by default. */
   discountNodesCount?: Maybe<Count>;
   /** Returns a bulk code creation resource by ID. */
   discountRedeemCodeBulkCreation?: Maybe<DiscountRedeemCodeBulkCreation>;
@@ -44038,7 +44048,7 @@ export type QueryRoot = {
   giftCard?: Maybe<GiftCard>;
   /** Returns a list of gift cards. */
   giftCards: GiftCardConnection;
-  /** The total number of gift cards issued for the shop. Limited to a maximum of 10000. */
+  /** The total number of gift cards issued for the shop. Limited to a maximum of 10000 by default. */
   giftCardsCount?: Maybe<Count>;
   /**
    * Returns an
@@ -44069,7 +44079,7 @@ export type QueryRoot = {
   locationsAvailableForDeliveryProfiles?: Maybe<Array<Location>>;
   /** Returns a list of all origin locations available for a delivery profile. */
   locationsAvailableForDeliveryProfilesConnection: LocationConnection;
-  /** Returns the count of locations for the given shop. Limited to a maximum of 10000. */
+  /** Returns the count of locations for the given shop. Limited to a maximum of 10000 by default. */
   locationsCount?: Maybe<Count>;
   /** Returns a list of fulfillment orders that are on hold. */
   manualHoldsFulfillmentOrders: FulfillmentOrderConnection;
@@ -44168,7 +44178,7 @@ export type QueryRoot = {
    * [sorting](https://shopify.dev/docs/api/admin-graphql/latest/queries/orders#argument-sortkey), and [filtering](https://shopify.dev/docs/api/admin-graphql/latest/queries/orders#argument-query).
    */
   orders: OrderConnection;
-  /** Returns the count of orders for the given shop. Limited to a maximum of 10000. */
+  /** Returns the count of orders for the given shop. Limited to a maximum of 10000 by default. */
   ordersCount?: Maybe<Count>;
   /** Returns a Page resource by ID. */
   page?: Maybe<Page>;
@@ -44409,7 +44419,7 @@ export type QueryRoot = {
   urlRedirectSavedSearches: SavedSearchConnection;
   /** A list of redirects for a shop. */
   urlRedirects: UrlRedirectConnection;
-  /** Count of redirects. Limited to a maximum of 10000. */
+  /** Count of redirects. Limited to a maximum of 10000 by default. */
   urlRedirectsCount?: Maybe<Count>;
   /** Validation available on the shop. */
   validation?: Maybe<Validation>;
@@ -44436,7 +44446,7 @@ export type QueryRoot = {
   /**
    * The count of webhook subscriptions.
    *
-   * Building an app? If you only use app-specific webhooks, you won't need this. App-specific webhook subscriptions specified in your `shopify.app.toml` may be easier. They are automatically kept up to date by Shopify & require less maintenance. Please read [About managing webhook subscriptions](https://shopify.dev/docs/apps/build/webhooks/subscribe). Limited to a maximum of 10000.
+   * Building an app? If you only use app-specific webhooks, you won't need this. App-specific webhook subscriptions specified in your `shopify.app.toml` may be easier. They are automatically kept up to date by Shopify & require less maintenance. Please read [About managing webhook subscriptions](https://shopify.dev/docs/apps/build/webhooks/subscribe). Limited to a maximum of 10000 by default.
    */
   webhookSubscriptionsCount?: Maybe<Count>;
 };
@@ -50836,9 +50846,21 @@ export type ShopFeatures = {
    * @deprecated All shops have international domains through Shopify Markets.
    */
   internationalDomains: Scalars['Boolean']['output'];
-  /** Whether a shop can enable international price overrides. */
+  /**
+   * Whether a shop can enable international price overrides.
+   * @deprecated Use the `markets` field on `EntitlementsType` in API version 2025-04 or later.
+   * Each market entitlement has a `catalogs` field that indicates
+   * whether the shop's markets have access to catalogs and price overrides.
+   *
+   */
   internationalPriceOverrides: Scalars['Boolean']['output'];
-  /** Whether a shop can enable international price rules. */
+  /**
+   * Whether a shop can enable international price rules.
+   * @deprecated Use the `markets` field on `EntitlementsType` in API version 2025-04 or later.
+   * Each market entitlement has a `catalogs` field that indicates
+   * whether the shop's markets have access to catalogs and price overrides.
+   *
+   */
   internationalPriceRules: Scalars['Boolean']['output'];
   /** Whether a shop has enabled a legacy subscription gateway to handle older subscriptions. */
   legacySubscriptionGatewayEnabled: Scalars['Boolean']['output'];
@@ -53273,6 +53295,8 @@ export enum SubscriptionBillingAttemptErrorCode {
   ExpiredPaymentMethod = 'EXPIRED_PAYMENT_METHOD',
   /** Fraud was suspected. */
   FraudSuspected = 'FRAUD_SUSPECTED',
+  /** Gift cards must have a price greater than zero. */
+  FreeGiftCardNotAllowed = 'FREE_GIFT_CARD_NOT_ALLOWED',
   /** Insufficient funds. */
   InsufficientFunds = 'INSUFFICIENT_FUNDS',
   /** Not enough inventory found. */

@@ -22,7 +22,7 @@ export async function execute<TResult, TVariables>(
       }),
     }
   );
-
+  
   if (!response.ok) {
     console.error(response);
     throw new Error("Network response was not ok");
