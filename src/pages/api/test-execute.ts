@@ -1,11 +1,43 @@
 import { execute } from "../../graphql/execute";
 
 const StorefrontTestQuery = `
-  query {
-    shop {
-      name
-      primaryDomain {
-        url
+  query AllProducts {
+    products(first: 100) {
+      nodes {
+        id
+        title
+        handle
+        updatedAt
+        tags
+        totalInventory
+        featuredImage {
+          url
+          altText
+          width
+          height
+        }
+        images(first: 2) {
+          edges {
+            node {
+              url
+              altText
+              width
+              height
+            }
+          }
+        }
+        priceRange {
+          minVariantPrice {
+            amount
+          }
+        }
+        variants(first: 100) {
+          edges {
+            node {
+              id
+            }
+          }
+        }
       }
     }
   }
