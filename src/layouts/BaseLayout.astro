@@ -42,7 +42,7 @@ const { SEOFields, structuredData } = Astro.props;
     <!-- End Meta Pixel Code -->
   </head>
   <body class="bg-dark">
-  <OverlayScrollbarsComponent
+  <!-- <OverlayScrollbarsComponent -->
     client:load
     element="div"
     options={{
@@ -53,7 +53,7 @@ const { SEOFields, structuredData } = Astro.props;
     }}
   >
       <slot />
-  </OverlayScrollbarsComponent>
+  <!-- </OverlayScrollbarsComponent> -->
   </body>
 </html>
 <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
