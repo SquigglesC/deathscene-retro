@@ -13,7 +13,7 @@ const query = `
 
 export async function GET() {
   try {
-    const data = await executeAdminUntyped(query, {}); // ✅ No variables needed
+    const data = await executeAdminUntyped(query, {});
     return new Response(JSON.stringify(data, null, 2), {
       status: 200,
       headers: {
