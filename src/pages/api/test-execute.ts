@@ -10,32 +10,9 @@ const StorefrontTestQuery = `
         updatedAt
         tags
         totalInventory
-        featuredImage {
-          url
-          altText
-          width
-          height
-        }
-        images(first: 2) {
-          edges {
-            node {
-              url
-              altText
-              width
-              height
-            }
-          }
-        }
         priceRange {
           minVariantPrice {
             amount
-          }
-        }
-        variants(first: 100) {
-          edges {
-            node {
-              id
-            }
           }
         }
       }
