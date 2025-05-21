@@ -10,6 +10,12 @@ const StorefrontTestQuery = `
         updatedAt
         tags
         totalInventory
+        featuredImage {
+          url
+          altText
+          width
+          height
+        }
         priceRange {
           minVariantPrice {
             amount
