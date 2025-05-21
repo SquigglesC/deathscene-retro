@@ -1,21 +1,11 @@
-import { executeAdmin } from "../../graphql/execute";
+import { executeAdminUntyped } from "../../graphql/execute";
 
-// Replace this with a real product ID from your store
-const TEST_PRODUCT_ID = "gid://shopify/Product/8659578749077";
-
-// You can use a typed query or a raw string here
 const query = `
-  query getProductMetafields($id: ID!) {
-    product(id: $id) {
-      id
-      title
-      metafields(keys: ["custom.release_date"], first: 5) {
-        nodes {
-          key
-          value
-          type
-          namespace
-        }
+  query {
+    products(first: 5) {
+      nodes {
+        id
+        title
       }
     }
   }
@@ -23,11 +13,7 @@ const query = `
 
 export async function GET() {
   try {
-    const data = await executeAdmin(
-      query as any,
-      { id: TEST_PRODUCT_ID }
-    );
-
+    const data = await executeAdminUntyped(query, {}); // ✅ No variables needed
     return new Response(JSON.stringify(data, null, 2), {
       status: 200,
       headers: {
