@@ -1,9 +1,19 @@
 import { execute } from "../../graphql/execute";
-import { AllProductsQuery } from "../../features/shop/storefront/getAllProducts";
+
+const StorefrontTestQuery = `
+  query {
+    shop {
+      name
+      primaryDomain {
+        url
+      }
+    }
+  }
+`;
 
 export async function GET() {
   try {
-    const data = await execute(AllProductsQuery);
+    const data = await execute(StorefrontTestQuery as any, []);
     return new Response(JSON.stringify(data, null, 2), {
       status: 200,
       headers: {
@@ -15,4 +25,3 @@ export async function GET() {
     return new Response("Internal Server Error", { status: 500 });
   }
 }
-
