@@ -35,6 +35,10 @@ export const prerender = false;
       transition={{ bounce: 0, duration: 0.5, ease: [0, 0, 0.45, 0.87] }}
     >
       <main class="w-full flex justify-center items-start">
+        {console.log("ENV VARS:")}
+        {console.log("SHOPIFY_DOMAIN:", import.meta.env.PUBLIC_SHOPIFY_STOREFRONT_DOMAIN)}
+        {console.log("SHOPIFY_STOREFRONT_API_TOKEN:", import.meta.env.PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN)}
+        {console.log("SHOPIFY_STOREFRONT_API_TOKEN:", import.meta.env.SHOPIFY_ADMIN_ACCESS_TOKEN)}
           <Products />
       </main>
       <Footer showIG={false}/>
