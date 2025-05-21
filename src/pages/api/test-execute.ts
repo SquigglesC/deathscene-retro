@@ -1,8 +1,7 @@
 import { execute } from "../../graphql/execute";
-import { graphql } from "../../../graphql/storefront";
 //import { AllProductsQuery } from "../../features/shop/storefront/getAllProducts";
 
-const query = graphql(`
+const query = `
   query {
     products(first: 100) {
       nodes {
@@ -43,7 +42,7 @@ const query = graphql(`
       }
     }
   }
-`);
+`
 
 
 export async function GET() {
