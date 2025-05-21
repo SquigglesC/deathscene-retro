@@ -31,6 +31,13 @@ const StorefrontTestQuery = `
             amount
           }
         }
+        variants(first: 100) {
+          edges {
+            node {
+              id
+            }
+          }
+        }
       }
     }
   }
