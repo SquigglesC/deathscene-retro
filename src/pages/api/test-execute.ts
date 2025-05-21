@@ -1,7 +1,9 @@
 import { execute } from "../../graphql/execute";
+import { graphql } from "../../../graphql/storefront";
 //import { AllProductsQuery } from "../../features/shop/storefront/getAllProducts";
-const query = `
-  query AllProducts {
+
+const query = graphql(`
+  query {
     products(first: 100) {
       nodes {
         id
@@ -41,12 +43,12 @@ const query = `
       }
     }
   }
-`
+`);
 
 
 export async function GET() {
   try {
-    const data = await execute(query);
+    const data = await execute(query, {});
     return new Response(JSON.stringify(data, null, 2), {
       status: 200,
       headers: {
