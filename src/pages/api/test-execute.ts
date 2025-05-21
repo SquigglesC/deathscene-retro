@@ -16,6 +16,16 @@ const StorefrontTestQuery = `
           width
           height
         }
+        images(first: 2) {
+          edges {
+            node {
+              url
+              altText
+              width
+              height
+            }
+          }
+        }
         priceRange {
           minVariantPrice {
             amount
