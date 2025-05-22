@@ -32,11 +32,17 @@ const StorefrontTestQuery = `
           }
         }
         variants(first: 100) {
-          edges {
-            node {
+            nodes {
               id
             }
-          }
+        }
+        metafields(
+          identifiers: [
+            { namespace: "custom", key: "release_date" }
+          ]
+        ) {
+          key
+          value
         }
       }
     }

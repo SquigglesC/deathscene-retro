@@ -2,7 +2,7 @@ import { graphql } from "../../../graphql/storefront";
 
 export const AllProductsQuery = graphql(`
   query AllProducts {
-    products(first: 25) {
+    products(first: 100) {
       nodes {
         id
         title
@@ -31,7 +31,7 @@ export const AllProductsQuery = graphql(`
             amount
           }
         }
-        variants(first: 20) {
+        variants(first: 100) {
           edges {
             node {
               id
