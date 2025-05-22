@@ -31,7 +31,7 @@ const StorefrontTestQuery = `
             amount
           }
         }
-        variants(first: 100) {
+        variants {
             nodes {
               id
             }
