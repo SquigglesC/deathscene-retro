@@ -44274,7 +44274,7 @@ export type QueryRoot = {
   publications: PublicationConnection;
   /** Count of publications. */
   publicationsCount?: Maybe<Count>;
-  /** Returns a count of published products by publication ID. */
+  /** Returns a count of published products by publication ID. Limited to a maximum of 10000 by default. */
   publishedProductsCount?: Maybe<Count>;
   /** Returns a Refund resource by ID. */
   refund?: Maybe<Refund>;
@@ -54646,7 +54646,36 @@ export enum SubscriptionDiscountRejectionReason {
 /** The value of the discount and how it will be applied. */
 export type SubscriptionDiscountValue = SubscriptionDiscountFixedAmountValue | SubscriptionDiscountPercentageValue;
 
-/** Represents a Subscription Draft. */
+/**
+ * The `SubscriptionDraft` object represents a draft version of a
+ * [subscription contract](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionContract)
+ * before it's committed. It serves as a staging area for making changes to an existing subscription or creating
+ * a new one. The draft allows you to preview and modify various aspects of a subscription before applying the changes.
+ *
+ * Use the `SubscriptionDraft` object to:
+ *
+ * - Add, remove, or modify subscription lines and their quantities
+ * - Manage discounts (add, remove, or update manual and code-based discounts)
+ * - Configure delivery options and shipping methods
+ * - Set up billing and delivery policies
+ * - Manage customer payment methods
+ * - Add custom attributes and notes to generated orders
+ * - Configure billing cycles and next billing dates
+ * - Preview the projected state of the subscription
+ *
+ * Each `SubscriptionDraft` object maintains a projected state that shows how the subscription will look after the changes
+ * are committed. This allows you to preview the impact of your modifications before applying them. The draft can be
+ * associated with an existing subscription contract (for modifications) or used to create a new subscription.
+ *
+ * The draft remains in a draft state until it's committed, at which point the changes are applied to the subscription
+ * contract and the draft is no longer accessible.
+ *
+ * Learn more about
+ * [how subscription contracts work](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts)
+ * and how to [build](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract),
+ * [update](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract), and
+ * [combine](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/combine-subscription-contracts) subscription contracts.
+ */
 export type SubscriptionDraft = Node & {
   __typename?: 'SubscriptionDraft';
   /** The billing cycle that the subscription contract will be associated with. */
@@ -54703,7 +54732,36 @@ export type SubscriptionDraft = Node & {
 };
 
 
-/** Represents a Subscription Draft. */
+/**
+ * The `SubscriptionDraft` object represents a draft version of a
+ * [subscription contract](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionContract)
+ * before it's committed. It serves as a staging area for making changes to an existing subscription or creating
+ * a new one. The draft allows you to preview and modify various aspects of a subscription before applying the changes.
+ *
+ * Use the `SubscriptionDraft` object to:
+ *
+ * - Add, remove, or modify subscription lines and their quantities
+ * - Manage discounts (add, remove, or update manual and code-based discounts)
+ * - Configure delivery options and shipping methods
+ * - Set up billing and delivery policies
+ * - Manage customer payment methods
+ * - Add custom attributes and notes to generated orders
+ * - Configure billing cycles and next billing dates
+ * - Preview the projected state of the subscription
+ *
+ * Each `SubscriptionDraft` object maintains a projected state that shows how the subscription will look after the changes
+ * are committed. This allows you to preview the impact of your modifications before applying them. The draft can be
+ * associated with an existing subscription contract (for modifications) or used to create a new subscription.
+ *
+ * The draft remains in a draft state until it's committed, at which point the changes are applied to the subscription
+ * contract and the draft is no longer accessible.
+ *
+ * Learn more about
+ * [how subscription contracts work](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts)
+ * and how to [build](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract),
+ * [update](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract), and
+ * [combine](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/combine-subscription-contracts) subscription contracts.
+ */
 export type SubscriptionDraftConcatenatedBillingCyclesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -54714,19 +54772,106 @@ export type SubscriptionDraftConcatenatedBillingCyclesArgs = {
 };
 
 
-/** Represents a Subscription Draft. */
+/**
+ * The `SubscriptionDraft` object represents a draft version of a
+ * [subscription contract](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionContract)
+ * before it's committed. It serves as a staging area for making changes to an existing subscription or creating
+ * a new one. The draft allows you to preview and modify various aspects of a subscription before applying the changes.
+ *
+ * Use the `SubscriptionDraft` object to:
+ *
+ * - Add, remove, or modify subscription lines and their quantities
+ * - Manage discounts (add, remove, or update manual and code-based discounts)
+ * - Configure delivery options and shipping methods
+ * - Set up billing and delivery policies
+ * - Manage customer payment methods
+ * - Add custom attributes and notes to generated orders
+ * - Configure billing cycles and next billing dates
+ * - Preview the projected state of the subscription
+ *
+ * Each `SubscriptionDraft` object maintains a projected state that shows how the subscription will look after the changes
+ * are committed. This allows you to preview the impact of your modifications before applying them. The draft can be
+ * associated with an existing subscription contract (for modifications) or used to create a new subscription.
+ *
+ * The draft remains in a draft state until it's committed, at which point the changes are applied to the subscription
+ * contract and the draft is no longer accessible.
+ *
+ * Learn more about
+ * [how subscription contracts work](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts)
+ * and how to [build](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract),
+ * [update](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract), and
+ * [combine](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/combine-subscription-contracts) subscription contracts.
+ */
 export type SubscriptionDraftCustomerPaymentMethodArgs = {
   showRevoked?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
-/** Represents a Subscription Draft. */
+/**
+ * The `SubscriptionDraft` object represents a draft version of a
+ * [subscription contract](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionContract)
+ * before it's committed. It serves as a staging area for making changes to an existing subscription or creating
+ * a new one. The draft allows you to preview and modify various aspects of a subscription before applying the changes.
+ *
+ * Use the `SubscriptionDraft` object to:
+ *
+ * - Add, remove, or modify subscription lines and their quantities
+ * - Manage discounts (add, remove, or update manual and code-based discounts)
+ * - Configure delivery options and shipping methods
+ * - Set up billing and delivery policies
+ * - Manage customer payment methods
+ * - Add custom attributes and notes to generated orders
+ * - Configure billing cycles and next billing dates
+ * - Preview the projected state of the subscription
+ *
+ * Each `SubscriptionDraft` object maintains a projected state that shows how the subscription will look after the changes
+ * are committed. This allows you to preview the impact of your modifications before applying them. The draft can be
+ * associated with an existing subscription contract (for modifications) or used to create a new subscription.
+ *
+ * The draft remains in a draft state until it's committed, at which point the changes are applied to the subscription
+ * contract and the draft is no longer accessible.
+ *
+ * Learn more about
+ * [how subscription contracts work](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts)
+ * and how to [build](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract),
+ * [update](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract), and
+ * [combine](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/combine-subscription-contracts) subscription contracts.
+ */
 export type SubscriptionDraftDeliveryOptionsArgs = {
   deliveryAddress?: InputMaybe<MailingAddressInput>;
 };
 
 
-/** Represents a Subscription Draft. */
+/**
+ * The `SubscriptionDraft` object represents a draft version of a
+ * [subscription contract](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionContract)
+ * before it's committed. It serves as a staging area for making changes to an existing subscription or creating
+ * a new one. The draft allows you to preview and modify various aspects of a subscription before applying the changes.
+ *
+ * Use the `SubscriptionDraft` object to:
+ *
+ * - Add, remove, or modify subscription lines and their quantities
+ * - Manage discounts (add, remove, or update manual and code-based discounts)
+ * - Configure delivery options and shipping methods
+ * - Set up billing and delivery policies
+ * - Manage customer payment methods
+ * - Add custom attributes and notes to generated orders
+ * - Configure billing cycles and next billing dates
+ * - Preview the projected state of the subscription
+ *
+ * Each `SubscriptionDraft` object maintains a projected state that shows how the subscription will look after the changes
+ * are committed. This allows you to preview the impact of your modifications before applying them. The draft can be
+ * associated with an existing subscription contract (for modifications) or used to create a new subscription.
+ *
+ * The draft remains in a draft state until it's committed, at which point the changes are applied to the subscription
+ * contract and the draft is no longer accessible.
+ *
+ * Learn more about
+ * [how subscription contracts work](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts)
+ * and how to [build](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract),
+ * [update](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract), and
+ * [combine](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/combine-subscription-contracts) subscription contracts.
+ */
 export type SubscriptionDraftDiscountsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -54736,7 +54881,36 @@ export type SubscriptionDraftDiscountsArgs = {
 };
 
 
-/** Represents a Subscription Draft. */
+/**
+ * The `SubscriptionDraft` object represents a draft version of a
+ * [subscription contract](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionContract)
+ * before it's committed. It serves as a staging area for making changes to an existing subscription or creating
+ * a new one. The draft allows you to preview and modify various aspects of a subscription before applying the changes.
+ *
+ * Use the `SubscriptionDraft` object to:
+ *
+ * - Add, remove, or modify subscription lines and their quantities
+ * - Manage discounts (add, remove, or update manual and code-based discounts)
+ * - Configure delivery options and shipping methods
+ * - Set up billing and delivery policies
+ * - Manage customer payment methods
+ * - Add custom attributes and notes to generated orders
+ * - Configure billing cycles and next billing dates
+ * - Preview the projected state of the subscription
+ *
+ * Each `SubscriptionDraft` object maintains a projected state that shows how the subscription will look after the changes
+ * are committed. This allows you to preview the impact of your modifications before applying them. The draft can be
+ * associated with an existing subscription contract (for modifications) or used to create a new subscription.
+ *
+ * The draft remains in a draft state until it's committed, at which point the changes are applied to the subscription
+ * contract and the draft is no longer accessible.
+ *
+ * Learn more about
+ * [how subscription contracts work](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts)
+ * and how to [build](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract),
+ * [update](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract), and
+ * [combine](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/combine-subscription-contracts) subscription contracts.
+ */
 export type SubscriptionDraftDiscountsAddedArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -54746,7 +54920,36 @@ export type SubscriptionDraftDiscountsAddedArgs = {
 };
 
 
-/** Represents a Subscription Draft. */
+/**
+ * The `SubscriptionDraft` object represents a draft version of a
+ * [subscription contract](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionContract)
+ * before it's committed. It serves as a staging area for making changes to an existing subscription or creating
+ * a new one. The draft allows you to preview and modify various aspects of a subscription before applying the changes.
+ *
+ * Use the `SubscriptionDraft` object to:
+ *
+ * - Add, remove, or modify subscription lines and their quantities
+ * - Manage discounts (add, remove, or update manual and code-based discounts)
+ * - Configure delivery options and shipping methods
+ * - Set up billing and delivery policies
+ * - Manage customer payment methods
+ * - Add custom attributes and notes to generated orders
+ * - Configure billing cycles and next billing dates
+ * - Preview the projected state of the subscription
+ *
+ * Each `SubscriptionDraft` object maintains a projected state that shows how the subscription will look after the changes
+ * are committed. This allows you to preview the impact of your modifications before applying them. The draft can be
+ * associated with an existing subscription contract (for modifications) or used to create a new subscription.
+ *
+ * The draft remains in a draft state until it's committed, at which point the changes are applied to the subscription
+ * contract and the draft is no longer accessible.
+ *
+ * Learn more about
+ * [how subscription contracts work](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts)
+ * and how to [build](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract),
+ * [update](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract), and
+ * [combine](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/combine-subscription-contracts) subscription contracts.
+ */
 export type SubscriptionDraftDiscountsRemovedArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -54756,7 +54959,36 @@ export type SubscriptionDraftDiscountsRemovedArgs = {
 };
 
 
-/** Represents a Subscription Draft. */
+/**
+ * The `SubscriptionDraft` object represents a draft version of a
+ * [subscription contract](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionContract)
+ * before it's committed. It serves as a staging area for making changes to an existing subscription or creating
+ * a new one. The draft allows you to preview and modify various aspects of a subscription before applying the changes.
+ *
+ * Use the `SubscriptionDraft` object to:
+ *
+ * - Add, remove, or modify subscription lines and their quantities
+ * - Manage discounts (add, remove, or update manual and code-based discounts)
+ * - Configure delivery options and shipping methods
+ * - Set up billing and delivery policies
+ * - Manage customer payment methods
+ * - Add custom attributes and notes to generated orders
+ * - Configure billing cycles and next billing dates
+ * - Preview the projected state of the subscription
+ *
+ * Each `SubscriptionDraft` object maintains a projected state that shows how the subscription will look after the changes
+ * are committed. This allows you to preview the impact of your modifications before applying them. The draft can be
+ * associated with an existing subscription contract (for modifications) or used to create a new subscription.
+ *
+ * The draft remains in a draft state until it's committed, at which point the changes are applied to the subscription
+ * contract and the draft is no longer accessible.
+ *
+ * Learn more about
+ * [how subscription contracts work](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts)
+ * and how to [build](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract),
+ * [update](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract), and
+ * [combine](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/combine-subscription-contracts) subscription contracts.
+ */
 export type SubscriptionDraftDiscountsUpdatedArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -54766,7 +54998,36 @@ export type SubscriptionDraftDiscountsUpdatedArgs = {
 };
 
 
-/** Represents a Subscription Draft. */
+/**
+ * The `SubscriptionDraft` object represents a draft version of a
+ * [subscription contract](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionContract)
+ * before it's committed. It serves as a staging area for making changes to an existing subscription or creating
+ * a new one. The draft allows you to preview and modify various aspects of a subscription before applying the changes.
+ *
+ * Use the `SubscriptionDraft` object to:
+ *
+ * - Add, remove, or modify subscription lines and their quantities
+ * - Manage discounts (add, remove, or update manual and code-based discounts)
+ * - Configure delivery options and shipping methods
+ * - Set up billing and delivery policies
+ * - Manage customer payment methods
+ * - Add custom attributes and notes to generated orders
+ * - Configure billing cycles and next billing dates
+ * - Preview the projected state of the subscription
+ *
+ * Each `SubscriptionDraft` object maintains a projected state that shows how the subscription will look after the changes
+ * are committed. This allows you to preview the impact of your modifications before applying them. The draft can be
+ * associated with an existing subscription contract (for modifications) or used to create a new subscription.
+ *
+ * The draft remains in a draft state until it's committed, at which point the changes are applied to the subscription
+ * contract and the draft is no longer accessible.
+ *
+ * Learn more about
+ * [how subscription contracts work](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts)
+ * and how to [build](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract),
+ * [update](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract), and
+ * [combine](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/combine-subscription-contracts) subscription contracts.
+ */
 export type SubscriptionDraftLinesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -54776,7 +55037,36 @@ export type SubscriptionDraftLinesArgs = {
 };
 
 
-/** Represents a Subscription Draft. */
+/**
+ * The `SubscriptionDraft` object represents a draft version of a
+ * [subscription contract](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionContract)
+ * before it's committed. It serves as a staging area for making changes to an existing subscription or creating
+ * a new one. The draft allows you to preview and modify various aspects of a subscription before applying the changes.
+ *
+ * Use the `SubscriptionDraft` object to:
+ *
+ * - Add, remove, or modify subscription lines and their quantities
+ * - Manage discounts (add, remove, or update manual and code-based discounts)
+ * - Configure delivery options and shipping methods
+ * - Set up billing and delivery policies
+ * - Manage customer payment methods
+ * - Add custom attributes and notes to generated orders
+ * - Configure billing cycles and next billing dates
+ * - Preview the projected state of the subscription
+ *
+ * Each `SubscriptionDraft` object maintains a projected state that shows how the subscription will look after the changes
+ * are committed. This allows you to preview the impact of your modifications before applying them. The draft can be
+ * associated with an existing subscription contract (for modifications) or used to create a new subscription.
+ *
+ * The draft remains in a draft state until it's committed, at which point the changes are applied to the subscription
+ * contract and the draft is no longer accessible.
+ *
+ * Learn more about
+ * [how subscription contracts work](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts)
+ * and how to [build](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract),
+ * [update](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract), and
+ * [combine](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/combine-subscription-contracts) subscription contracts.
+ */
 export type SubscriptionDraftLinesAddedArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -54786,7 +55076,36 @@ export type SubscriptionDraftLinesAddedArgs = {
 };
 
 
-/** Represents a Subscription Draft. */
+/**
+ * The `SubscriptionDraft` object represents a draft version of a
+ * [subscription contract](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionContract)
+ * before it's committed. It serves as a staging area for making changes to an existing subscription or creating
+ * a new one. The draft allows you to preview and modify various aspects of a subscription before applying the changes.
+ *
+ * Use the `SubscriptionDraft` object to:
+ *
+ * - Add, remove, or modify subscription lines and their quantities
+ * - Manage discounts (add, remove, or update manual and code-based discounts)
+ * - Configure delivery options and shipping methods
+ * - Set up billing and delivery policies
+ * - Manage customer payment methods
+ * - Add custom attributes and notes to generated orders
+ * - Configure billing cycles and next billing dates
+ * - Preview the projected state of the subscription
+ *
+ * Each `SubscriptionDraft` object maintains a projected state that shows how the subscription will look after the changes
+ * are committed. This allows you to preview the impact of your modifications before applying them. The draft can be
+ * associated with an existing subscription contract (for modifications) or used to create a new subscription.
+ *
+ * The draft remains in a draft state until it's committed, at which point the changes are applied to the subscription
+ * contract and the draft is no longer accessible.
+ *
+ * Learn more about
+ * [how subscription contracts work](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts)
+ * and how to [build](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract),
+ * [update](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract), and
+ * [combine](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/combine-subscription-contracts) subscription contracts.
+ */
 export type SubscriptionDraftLinesRemovedArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -54796,7 +55115,36 @@ export type SubscriptionDraftLinesRemovedArgs = {
 };
 
 
-/** Represents a Subscription Draft. */
+/**
+ * The `SubscriptionDraft` object represents a draft version of a
+ * [subscription contract](https://shopify.dev/docs/api/admin-graphql/latest/objects/SubscriptionContract)
+ * before it's committed. It serves as a staging area for making changes to an existing subscription or creating
+ * a new one. The draft allows you to preview and modify various aspects of a subscription before applying the changes.
+ *
+ * Use the `SubscriptionDraft` object to:
+ *
+ * - Add, remove, or modify subscription lines and their quantities
+ * - Manage discounts (add, remove, or update manual and code-based discounts)
+ * - Configure delivery options and shipping methods
+ * - Set up billing and delivery policies
+ * - Manage customer payment methods
+ * - Add custom attributes and notes to generated orders
+ * - Configure billing cycles and next billing dates
+ * - Preview the projected state of the subscription
+ *
+ * Each `SubscriptionDraft` object maintains a projected state that shows how the subscription will look after the changes
+ * are committed. This allows you to preview the impact of your modifications before applying them. The draft can be
+ * associated with an existing subscription contract (for modifications) or used to create a new subscription.
+ *
+ * The draft remains in a draft state until it's committed, at which point the changes are applied to the subscription
+ * contract and the draft is no longer accessible.
+ *
+ * Learn more about
+ * [how subscription contracts work](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts)
+ * and how to [build](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/build-a-subscription-contract),
+ * [update](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/update-a-subscription-contract), and
+ * [combine](https://shopify.dev/docs/apps/build/purchase-options/subscriptions/contracts/combine-subscription-contracts) subscription contracts.
+ */
 export type SubscriptionDraftShippingOptionsArgs = {
   deliveryAddress?: InputMaybe<MailingAddressInput>;
 };
