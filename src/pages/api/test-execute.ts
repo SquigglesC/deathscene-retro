@@ -1,7 +1,7 @@
 import { execute } from "../../graphql/execute";
 
 const StorefrontTestQuery = `
-  query AllProducts {
+  query DEBUG {
     products(first: 100) {
       nodes {
         id
@@ -31,10 +31,12 @@ const StorefrontTestQuery = `
             amount
           }
         }
-        variants {
-            nodes {
+        variants(first: 100) {
+          edges {
+            node {
               id
             }
+          }
         }
         metafields(
           identifiers: [

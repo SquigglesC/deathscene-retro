@@ -1207,7 +1207,7 @@ export type AppPurchaseOneTimeEdge = {
 export enum AppPurchaseStatus {
   /**
    * The app purchase has been approved by the merchant and is ready to be activated by the app. App purchases created through the GraphQL Admin API are activated upon approval.
-   * @deprecated As of API version 2021-01, when a merchant accepts an app purchase, the status immediately changes from `pending` to `active`.
+   * @deprecated When a merchant accepts an app purchase, the status immediately changes from `pending` to `active`.
    */
   Accepted = 'ACCEPTED',
   /** The app purchase was approved by the merchant and has been activated by the app. Active app purchases are charged to the merchant and are paid out to the partner. */
@@ -1538,7 +1538,7 @@ export enum AppSubscriptionSortKeys {
 export enum AppSubscriptionStatus {
   /**
    * The app subscription has been approved by the merchant and is ready to be activated by the app.
-   * @deprecated As of API version 2021-01, when a merchant approves an app subscription, the status immediately transitions from `pending` to `active`.
+   * @deprecated When a merchant approves an app subscription, the status immediately transitions from `pending` to `active`.
    */
   Accepted = 'ACCEPTED',
   /** The app subscription has been approved by the merchant. Active app subscriptions are billed to the shop. After payment, partners receive payouts. */
@@ -9311,7 +9311,7 @@ export enum CurrencyCode {
   Byn = 'BYN',
   /**
    * Belarusian Ruble (BYR).
-   * @deprecated `BYR` is deprecated. Use `BYN` available from version `2021-01` onwards instead.
+   * @deprecated Use `BYN` instead.
    */
   Byr = 'BYR',
   /** Belize Dollar (BZD). */
@@ -9524,7 +9524,7 @@ export enum CurrencyCode {
   Ssp = 'SSP',
   /**
    * Sao Tome And Principe Dobra (STD).
-   * @deprecated `STD` is deprecated. Use `STN` available from version `2022-07` onwards instead.
+   * @deprecated Use `STN` instead.
    */
   Std = 'STD',
   /** Sao Tome And Principe Dobra (STN). */
@@ -9565,7 +9565,7 @@ export enum CurrencyCode {
   Ved = 'VED',
   /**
    * Venezuelan Bolivares (VEF).
-   * @deprecated `VEF` is deprecated. Use `VES` available from version `2020-10` onwards instead.
+   * @deprecated Use `VES` instead.
    */
   Vef = 'VEF',
   /** Venezuelan Bolivares Soberanos (VES). */
@@ -23602,7 +23602,7 @@ export type LineItem = Node & {
    *
    * If none of the above conditions are met, then the fulfillment service has the `manual` handle.
    * @deprecated
-   * The [relationship between a product variant and a fulfillment service was changed in the `2022-07` API version](/changelog/fulfillment-service-sku-sharing). A [ProductVariant](/api/admin-graphql/latest/objects/ProductVariant) can be stocked by multiple fulfillment services. As a result, we recommend that you use the [inventoryItem field](/api/admin-graphql/latest/objects/ProductVariant#field-productvariant-inventoryitem) if you need to determine where a product variant is stocked.
+   * The [relationship between a product variant and a fulfillment service was changed](/changelog/fulfillment-service-sku-sharing). A [ProductVariant](/api/admin-graphql/latest/objects/ProductVariant) can be stocked by multiple fulfillment services. As a result, we recommend that you use the [inventoryItem field](/api/admin-graphql/latest/objects/ProductVariant#field-productvariant-inventoryitem) if you need to determine where a product variant is stocked.
    *
    * If you need to determine whether a product is a gift card, then you should continue to use this field until an alternative is available.
    *
@@ -27244,7 +27244,7 @@ export type MetafieldAccess = {
    * The explicit grants for this metafield definition, superseding the default admin access
    * for the specified grantees.
    * @deprecated Explicit grants are [deprecated](https://shopify.dev/changelog/deprecating-explicit-access-grants-for-app-owned-metafields).
-   *
+   *  This will be removed in 2025-07.
    */
   grants: Array<MetafieldAccessGrant>;
   /** The access permitted on the Storefront API. */
@@ -39378,13 +39378,13 @@ export type Product = HasEvents & HasMetafieldDefinitions & HasMetafields & HasP
    * of the product in the shop's default currency.
    */
   compareAtPriceRange?: Maybe<ProductCompareAtPriceRange>;
-  /** The pricing that applies to a customer in a specific context. For example, a price might vary depending on the customer's location. As of API version 2025-04, only active markets are considered in the price resolution. */
+  /** The pricing that applies to a customer in a specific context. For example, a price might vary depending on the customer's location. Only active markets are considered in the price resolution. */
   contextualPricing: ProductContextualPricing;
   /** The date and time when the product was created. */
   createdAt: Scalars['DateTime']['output'];
   /**
    * The custom product type specified by the merchant.
-   * @deprecated Deprecated in API version 2022-10. Use `productType` instead.
+   * @deprecated Use `productType` instead.
    */
   customProductType?: Maybe<Scalars['String']['output']>;
   /** A default [cursor](https://shopify.dev/api/usage/pagination-graphql) that returns the single next record, sorted ascending by ID. */
@@ -39500,7 +39500,7 @@ export type Product = HasEvents & HasMetafieldDefinitions & HasMetafields & HasP
   options: Array<ProductOption>;
   /**
    * The price range of the product.
-   * @deprecated Deprecated in API version 2020-10. Use `priceRangeV2` instead.
+   * @deprecated Use `priceRangeV2` instead.
    */
   priceRange: ProductPriceRange;
   /**
@@ -39511,7 +39511,7 @@ export type Product = HasEvents & HasMetafieldDefinitions & HasMetafields & HasP
   priceRangeV2: ProductPriceRangeV2;
   /**
    * The product category specified by the merchant.
-   * @deprecated Deprecated in API version 2024-04. Use `category` instead.
+   * @deprecated Use `category` instead.
    */
   productCategory?: Maybe<ProductCategory>;
   /**
@@ -39623,7 +39623,7 @@ export type Product = HasEvents & HasMetafieldDefinitions & HasMetafields & HasP
   seo: Seo;
   /**
    * The standardized product type in the Shopify product taxonomy.
-   * @deprecated Deprecated in API version 2022-10. Use `productCategory` instead.
+   * @deprecated Use `productCategory` instead.
    */
   standardizedProductType?: Maybe<StandardizedProductType>;
   /**
@@ -39634,7 +39634,7 @@ export type Product = HasEvents & HasMetafieldDefinitions & HasMetafields & HasP
   /**
    * The Storefront GraphQL API ID of the `Product`.
    *
-   * As of the `2022-04` version release, the Storefront GraphQL API will no longer return Base64 encoded IDs to match the behavior of the Admin GraphQL API. Therefore, you can safely use the `id` field's value instead.
+   * The Storefront GraphQL API will no longer return Base64 encoded IDs to match the behavior of the Admin GraphQL API. Therefore, you can safely use the `id` field's value instead.
    * @deprecated Use `id` instead.
    */
   storefrontId: Scalars['StorefrontID']['output'];
@@ -42137,7 +42137,7 @@ export type ProductVariant = HasEvents & HasMetafieldDefinitions & HasMetafields
   /**
    * The Storefront GraphQL API ID of the `ProductVariant`.
    *
-   * As of the `2022-04` version release, the Storefront GraphQL API will no longer return Base64 encoded IDs to match the behavior of the Admin GraphQL API. Therefore, you can safely use the `id` field's value instead.
+   * The Storefront GraphQL API will no longer return Base64 encoded IDs to match the behavior of the Admin GraphQL API. Therefore, you can safely use the `id` field's value instead.
    * @deprecated Use `id` instead.
    */
   storefrontId: Scalars['StorefrontID']['output'];
@@ -48345,7 +48345,7 @@ export enum ScriptTagDisplayScope {
   OnlineStore = 'ONLINE_STORE',
   /**
    * Include the script only on the <b>Order status</b> page.
-   * @deprecated `ORDER_STATUS` is deprecated and unavailable as a mutation input as of <b>2025-01</b>.
+   * @deprecated `ORDER_STATUS` is deprecated and unavailable as a mutation input.
    *
    */
   OrderStatus = 'ORDER_STATUS'
@@ -50167,7 +50167,7 @@ export type Shop = HasMetafields & HasPublishedTranslations & Node & {
   alerts: Array<ShopAlert>;
   /**
    * A list of the shop's product categories. Limit: 1000 product categories.
-   * @deprecated Deprecated in API version 2024-07. Use `allProductCategoriesList` instead.
+   * @deprecated Use `allProductCategoriesList` instead.
    */
   allProductCategories: Array<ProductCategory>;
   /** A list of the shop's product categories. Limit: 1000 product categories. */
@@ -50334,7 +50334,7 @@ export type Shop = HasMetafields & HasPublishedTranslations & Node & {
   primaryDomain: Domain;
   /**
    * The list of all images of all products for the shop.
-   * @deprecated Use `files` instead. See [filesQuery](https://shopify.dev/docs/api/admin-graphql/latest/queries/files) and its [query](https://shopify.dev/docs/api/admin-graphql/2024-01/queries/files#argument-query) argument for more information.
+   * @deprecated Use `files` instead. See [filesQuery](https://shopify.dev/docs/api/admin-graphql/latest/queries/files) and its [query](https://shopify.dev/docs/api/admin-graphql/latest/queries/files#argument-query) argument for more information.
    */
   productImages: ImageConnection;
   /**
@@ -50848,7 +50848,7 @@ export type ShopFeatures = {
   internationalDomains: Scalars['Boolean']['output'];
   /**
    * Whether a shop can enable international price overrides.
-   * @deprecated Use the `markets` field on `EntitlementsType` in API version 2025-04 or later.
+   * @deprecated Use the `markets` field on `EntitlementsType`.
    * Each market entitlement has a `catalogs` field that indicates
    * whether the shop's markets have access to catalogs and price overrides.
    *
@@ -50856,7 +50856,7 @@ export type ShopFeatures = {
   internationalPriceOverrides: Scalars['Boolean']['output'];
   /**
    * Whether a shop can enable international price rules.
-   * @deprecated Use the `markets` field on `EntitlementsType` in API version 2025-04 or later.
+   * @deprecated Use the `markets` field on `EntitlementsType`.
    * Each market entitlement has a `catalogs` field that indicates
    * whether the shop's markets have access to catalogs and price overrides.
    *
@@ -53193,12 +53193,12 @@ export type SubscriptionBillingAttempt = Node & {
   createdAt: Scalars['DateTime']['output'];
   /**
    * A code corresponding to a payment error during processing.
-   * @deprecated As of API version 2025-01, use `processingError.code` instead to get the errorCode
+   * @deprecated Use `processingError.code` instead to get the errorCode
    */
   errorCode?: Maybe<SubscriptionBillingAttemptErrorCode>;
   /**
    * A message describing a payment error during processing.
-   * @deprecated As of API version 2025-01, use `processingError.message` instead to get the errorMessage
+   * @deprecated Use `processingError.message` instead to get the errorMessage
    */
   errorMessage?: Maybe<Scalars['String']['output']>;
   /** A globally-unique ID. */
